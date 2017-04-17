@@ -1,4 +1,4 @@
-#include <decomp_utils/geometry_utils.h>
+#include <decomp_util/geometry_utils.h>
 
 bool max_ellipsoid(const Vec3f& pt, const Polyhedron& vs,
                    Ellipsoid& E, decimal_t max_radius = 100);

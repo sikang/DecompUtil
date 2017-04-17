@@ -1,4 +1,4 @@
-#include <decomp_utils/geometry_utils.h>
+#include <decomp_util/geometry_utils.h>
 
 Quatf vec_to_quaternion(const Vec3f &v) {
   // zero roll

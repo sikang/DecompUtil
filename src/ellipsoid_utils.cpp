@@ -1,4 +1,4 @@
-#include <decomp_utils/ellipsoid_utils.h>
+#include <decomp_util/ellipsoid_utils.h>
 
 Ellipsoid find_sphere(const Vec3f& pt, const vec_Vec3f& obs, vec_Vec3f& ps, decimal_t f) {
   ps.clear();

@@ -1,4 +1,4 @@
-#include <decomp_utils/ellipse_decomp.h>
+#include <decomp_util/ellipse_decomp.h>
 
 LineSegment::LineSegment(const Vec3f &p1, const Vec3f &p2, bool debug):
   p1_(p1), p2_(p2), debug_(debug){
@@ -36,7 +36,7 @@ vec_Vec3f LineSegment::ps_in_polytope(const Polyhedron &Vs,
 
 
 pair_Vec3f LineSegment::closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O) {
-  decimal_t dist = MAX;
+  decimal_t dist = std::numeric_limits<decimal_t>::max();
   Vec3f vt, best_v;
   best_v = E.second;
   for (const auto &it : O) {

@@ -1,4 +1,4 @@
-#include <decomp_utils/ellipse_decomp.h>
+#include <decomp_util/ellipse_decomp.h>
 
 EllipseDecomp::EllipseDecomp(const Vec3f &origin, const Vec3f &dim, bool verbose){
   min_ = origin;

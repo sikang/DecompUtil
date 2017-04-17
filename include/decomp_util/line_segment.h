@@ -1,7 +1,7 @@
 #ifndef LINE_SEGMENT_H
 #define LINE_SEGMENT_H
 
-#include <decomp_utils/data_type.h>
+#include <decomp_util/data_type.h>
 #include "geometry_utils.h"
 
 class LineSegment{

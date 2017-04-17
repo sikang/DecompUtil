@@ -1,7 +1,7 @@
 #ifndef GEOMETRIC_UTILS_H
 #define GEOMETRIC_UTILS_H
 
-#include <decomp_utils/data_type.h>
+#include <decomp_util/data_utils.h>
 #include <iostream>
 #include <Eigen/Eigenvalues>
 

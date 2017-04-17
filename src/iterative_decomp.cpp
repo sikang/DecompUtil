@@ -1,4 +1,4 @@
-#include <decomp_utils/iterative_decomp.h>
+#include <decomp_util/iterative_decomp.h>
 
 IterativeDecomp::IterativeDecomp(const Vec3f &origin, const Vec3f &dim, bool verbose){
   min_ = origin;

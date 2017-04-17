@@ -3,7 +3,7 @@
 
 #define USE_CENTROID 1
 
-#include <decomp_utils/data_type.h>
+#include <decomp_util/data_type.h>
 #include <time.h>
 #include <memory>
 #include "line_segment.h"

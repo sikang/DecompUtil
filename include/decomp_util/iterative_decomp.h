@@ -1,7 +1,7 @@
 #ifndef ITERATIVE_DECOMP_H
 #define ITERATIVE_DECOMP_H
 
-#include <decomp_utils/ellipse_decomp.h>
+#include <decomp_util/ellipse_decomp.h>
 
 class IterativeDecomp : public EllipseDecomp
 {
