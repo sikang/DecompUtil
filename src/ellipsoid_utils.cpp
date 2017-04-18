@@ -112,20 +112,20 @@ bool max_ellipsoid(const Vec3f& pt, const Polyhedron& poly,
 
   Polyhedron vs = poly;
   for(auto& it: vs)
-    it.first = pt + dist(pt, it) * it.second;
+    it.p = pt + dist(pt, it) * it.n;
 
-  pair_Vec3f vb;
+  Face vb(Vec3f::Zero(), Vec3f::Zero());
   Vec3f axes(max_radius, max_radius, max_radius);
   Quatf q1 =  Quatf::Identity();
   if(estimate_ellipsoid(pt, vs, q1, 0, axes, vb))
-    q1 = vec_to_quaternion(vb.second);
+    q1 = vec_to_quaternion(vb.n);
   else
     return false;
 
   Quatf q2 = q1;
   axes(1) = max_radius, axes(2) = max_radius;
   if(estimate_ellipsoid(pt, vs, q1, 1, axes, vb)){
-    const decimal_t roll = atan2(vb.first(2), vb.first(1));
+    const decimal_t roll = atan2(vb.p(2), vb.p(1));
     q2 = q1 * Quatf(cos(roll / 2), sin(roll / 2), 0, 0);
   }
   else
@@ -145,11 +145,11 @@ bool max_ellipsoid(const Vec3f& pt, const Polyhedron& poly,
     return false;
 }
 
-bool estimate_ellipsoid(const Vec3f& pt, const Polyhedron& poly, const Quatf& q, int axes_id, Vec3f& axes, pair_Vec3f &vb) {
+bool estimate_ellipsoid(const Vec3f& pt, const Polyhedron& poly, const Quatf& q, int axes_id, Vec3f& axes, Face &vb) {
   Polyhedron inner_poly;
   for (const auto &it : poly) {
-    Vec3f p = q.inverse() * (it.first - pt);
-    Vec3f n = q.inverse() * it.second;
+    Vec3f p = q.inverse() * (it.p - pt);
+    Vec3f n = q.inverse() * it.n;
     decimal_t k = 1 /  sqrt(n(0)*n(0)*axes(0)*axes(0) +
                             n(1)*n(1)*axes(1)*axes(1) +
                             n(2)*n(2)*axes(2)*axes(2));
@@ -157,14 +157,14 @@ bool estimate_ellipsoid(const Vec3f& pt, const Polyhedron& poly, const Quatf& q,
             k*n(1)*axes(1)*axes(1),
             k*n(2)*axes(2)*axes(2));
     if((t - p).dot(n) > 0)
-      inner_poly.push_back(std::make_pair(p, n));
+      inner_poly.push_back(Face(p, n));
   }
 
   decimal_t axes_length = 0;
   for(unsigned int i = 0; i < inner_poly.size(); i++) {
-    pair_Vec3f v = inner_poly[i];
-    decimal_t k = v.first.dot(v.second);
-    Vec3f d = v.second;
+    Face v = inner_poly[i];
+    decimal_t k = v.p.dot(v.n);
+    Vec3f d = v.n;
     decimal_t axes_length_tmp = 0;
     if(axes_id == 0)
       axes_length_tmp = std::fabs(k);
@@ -201,8 +201,8 @@ bool estimate_ellipsoid(const Vec3f& pt, const Polyhedron& poly, const Quatf& q,
 bool has_inlier(const Vec3f& pt, const Polyhedron& vs,
                 const Quatf& qf, const Vec3f axes) {
   for (const auto &it : vs) {
-    Vec3f p = qf.inverse() * (it.first - pt);
-    Vec3f n = qf.inverse() * it.second;
+    Vec3f p = qf.inverse() * (it.p - pt);
+    Vec3f n = qf.inverse() * it.n;
     decimal_t k = 1 /  sqrt(n(0)*n(0)*axes(0)*axes(0) + n(1)*n(1)*axes(1)*axes(1) + n(2)*n(2)*axes(2)*axes(2));
     Vec3f t(k*n(0)*axes(0)*axes(0),
             k*n(1)*axes(1)*axes(1),

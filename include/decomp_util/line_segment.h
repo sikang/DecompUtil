@@ -20,7 +20,7 @@ class LineSegment{
 
     void dilate(decimal_t thr);
     void shrink(const Vec3f& p1, const Vec3f& p2, decimal_t thr);
-    void adjust(pair_Vec3f& v);
+    void adjust(Face& v);
 
   protected:
     void add_virtual_wall(Polyhedron &Vs);
@@ -28,7 +28,7 @@ class LineSegment{
         Vec3f& axes, Quatf& qf);
 
     vec_Vec3f ps_in_polytope(const Polyhedron &Vs, const vec_Vec3f &O);
-    pair_Vec3f closest_obstacle(const Ellipsoid &C, const vec_Vec3f &O);
+    Face closest_obstacle(const Ellipsoid &C, const vec_Vec3f &O);
     Ellipsoid find_ellipsoid(const Vec3f &p1, const Vec3f &p2);
     Polyhedron find_polyhedron(const Ellipsoid &E);
 

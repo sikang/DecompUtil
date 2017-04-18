@@ -98,8 +98,20 @@ typedef vec_E<Ellipsoid> vec_Ellipsoid;
 typedef std::pair<MatD3f, VecDf> LinearConstraint3f; // Ax <= b
 typedef vec_E<LinearConstraint3f> vec_LinearConstraint3f;
 
-typedef vec_E<pair_Vec3f> Polyhedron; // composed by planes with form (p, n)
-typedef vec_E<Polyhedron> vec_Polyhedron;
+struct Face {
+  Vec3f p;
+  Vec3f n;
+  bool pass;
+
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+  Face(Vec3f _p, Vec3f _n):
+    p(_p), n(_n), pass(true) {}
+  Face(Vec3f _p, Vec3f _n, bool _pass):
+    p(_p), n(_n), pass(_pass) {}
+};
+
+typedef vec_E<Face> Polyhedron; // composed by planes with form (p, n)
+typedef vec_E<Polyhedron> Polyhedra;
 
 ///Compensate for numerical error
 constexpr decimal_t epsilon_ = 1e-6; // numerical calculation effect

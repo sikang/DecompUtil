@@ -43,8 +43,8 @@ bool inside_polytope(const Vec3f &p,
                      decimal_t epsilon) {
   bool inside = true;
   for (const auto& v : Vs) {
-    Vec3f a = v.second;
-    decimal_t b = v.first.dot(a);
+    Vec3f a = v.n;
+    decimal_t b = v.p.dot(a);
     if (a.dot(p) - b > epsilon) {
       inside = false;
       break;
@@ -97,7 +97,7 @@ bool closest_pt(const Ellipsoid &E,
 vec_E<pair_Vec3f> cal_normals(const Polyhedron &vts) {
   vec_E<pair_Vec3f> ns;
   for (const auto& it : vts)
-    ns.push_back(std::make_pair(it.second, it.first));
+    ns.push_back(std::make_pair(it.n, it.p));
   return ns;
 }
 
@@ -110,8 +110,8 @@ LinearConstraint3f cal_Axb(const Vec3f& p0,
   VecDf b(size);
 
   for (unsigned int i = 0; i < size; i++) {
-    Vec3f n = Vs[i].second;
-    decimal_t c = Vs[i].first.dot(n);
+    Vec3f n = Vs[i].n;
+    decimal_t c = Vs[i].p.dot(n);
     if (n.dot(p0) - c > 0) {
       n = -n;
       c = -c;
@@ -167,17 +167,17 @@ vec_E<vec_Vec3f> cal_extreme_points(const Polyhedron &vts) {
   vec_E<vec_Vec3f> bds;
   //**** for each plane, find lines on it
   for (unsigned int i = 0; i < vts.size(); i++) {
-    const Vec3f t = vts[i].first;
-    const Vec3f n = vts[i].second;
+    const Vec3f t = vts[i].p;
+    const Vec3f n = vts[i].n;
     const Quatf q = Quatf::FromTwoVectors(Vec3f(0, 0, 1), n);
     const Mat3f R(q); // body to world
     vec_E<pair_Vec3f> lines;
     for (unsigned int j = 0; j < vts.size(); j++) {
       if (j == i)
         continue;
-      Vec3f nw = vts[j].second;
+      Vec3f nw = vts[j].n;
       Vec3f nb = R.transpose() * nw;
-      decimal_t bb = vts[j].first.dot(nw) - nw.dot(t);
+      decimal_t bb = vts[j].p.dot(nw) - nw.dot(t);
       Vec3f v = Vec3f(0, 0, 1).cross(nb); // line direction
       Vec3f p; // point on the line
       if (nb(1) != 0)
@@ -189,9 +189,9 @@ vec_E<vec_Vec3f> cal_extreme_points(const Polyhedron &vts) {
       lines.push_back(std::make_pair(v, p));
     }
 
-		//**** find all intersect points
+    //**** find all intersect points
     vec_Vec3f pts = line_intersects(lines);
-		//**** filter out points inside polytope
+    //**** filter out points inside polytope
     vec_Vec3f pts_inside;
     for (const auto& it : pts) {
       Vec3f p = R * it + t; // convert to world frame
@@ -207,57 +207,57 @@ vec_E<vec_Vec3f> cal_extreme_points(const Polyhedron &vts) {
     for (auto &it : pts_inside)
       it = R * it + t;
 
-		if(pts_inside.size() > 2){
-			vec_Vec3f pts_valid;
-			pts_valid.push_back(pts_inside[0]);
-			Vec3f prev_pt = pts_inside[0];
-			const unsigned int size = pts_inside.size();
-			for(unsigned int k = 1; k < size - 1; k++){
-				if((pts_inside[k] - prev_pt).norm() > epsilon_)
-				{
-					prev_pt = pts_inside[k];
-					pts_valid.push_back(prev_pt);
-				}
-			}
+    if(pts_inside.size() > 2){
+      vec_Vec3f pts_valid;
+      pts_valid.push_back(pts_inside[0]);
+      Vec3f prev_pt = pts_inside[0];
+      const unsigned int size = pts_inside.size();
+      for(unsigned int k = 1; k < size - 1; k++){
+        if((pts_inside[k] - prev_pt).norm() > epsilon_)
+        {
+          prev_pt = pts_inside[k];
+          pts_valid.push_back(prev_pt);
+        }
+      }
 
-			if((pts_inside[size-1] - pts_inside[0]).norm() > epsilon_ &&
-					(pts_inside[size-1] - prev_pt).norm() > epsilon_)
-					pts_valid.push_back(pts_inside[size-1]);
+      if((pts_inside[size-1] - pts_inside[0]).norm() > epsilon_ &&
+          (pts_inside[size-1] - prev_pt).norm() > epsilon_)
+        pts_valid.push_back(pts_inside[size-1]);
 
-			//**** insert resulting polygon
-			if(pts_valid.size() > 2){
-				bds.push_back(pts_valid);
-				/*
-					std::cout << "add ==========" << std::endl;
-					for(auto it: pts_valid)
-						std::cout << it.transpose() << std::endl;
-				*/
-			}
-		}
+      //**** insert resulting polygon
+      if(pts_valid.size() > 2){
+        bds.push_back(pts_valid);
+        /*
+           std::cout << "add ==========" << std::endl;
+           for(auto it: pts_valid)
+           std::cout << it.transpose() << std::endl;
+           */
+      }
+    }
   }
   return bds;
 }
 
 
 //**** Find intersect polygon between a plane and polytope
-vec_Vec3f plane_polytope_intersection(const pair_Vec3f &plane,
+vec_Vec3f plane_polytope_intersection(const Face &plane,
                                       const Polyhedron &vts) {
-  if(!inside_polytope(plane.first, vts, epsilon_))
+  if(!inside_polytope(plane.p, vts, epsilon_))
   {
     printf(ANSI_COLOR_RED "pt is outside polyhedron! \n" ANSI_COLOR_RESET);
     return vec_Vec3f();
   }
 
-	const Vec3f t = plane.first;
-  const Vec3f n = plane.second;
+  const Vec3f t = plane.p;
+  const Vec3f n = plane.n;
 
   const Quatf q = Quatf::FromTwoVectors(Vec3f(0, 0, 1), n);
   const Mat3f R(q); // body to world
   vec_E<pair_Vec3f> lines;
   for (unsigned int j = 0; j < vts.size(); j++) {
-    Vec3f nw = vts[j].second;
+    Vec3f nw = vts[j].n;
     Vec3f nb = R.transpose() * nw;
-    decimal_t bb = vts[j].first.dot(nw) - nw.dot(t);
+    decimal_t bb = vts[j].p.dot(nw) - nw.dot(t);
     Vec3f v = Vec3f(0, 0, 1).cross(nb);
     Vec3f p;
     if (nb(1) != 0)
@@ -290,37 +290,37 @@ vec_Vec3f plane_polytope_intersection(const pair_Vec3f &plane,
 //**** uniformly sample path into many segments
 vec_Vec3f path_downsample(const vec_Vec3f& ps, decimal_t d){
   // subdivide according to length
-	if(ps.empty())
-		return ps;
-	vec_Vec3f path;
-	for(unsigned int i = 1; i < ps.size(); i++){
-		decimal_t dist = (ps[i] - ps[i-1]).norm();
-		int cnt = std::ceil(dist / d);
-		for(int j = 0; j < cnt; j++)
-			path.push_back(ps[i-1] + j * (ps[i] - ps[i-1]) / cnt);
-	}
-	path.push_back(ps.back());
+  if(ps.empty())
+    return ps;
+  vec_Vec3f path;
+  for(unsigned int i = 1; i < ps.size(); i++){
+    decimal_t dist = (ps[i] - ps[i-1]).norm();
+    int cnt = std::ceil(dist / d);
+    for(int j = 0; j < cnt; j++)
+      path.push_back(ps[i-1] + j * (ps[i] - ps[i-1]) / cnt);
+  }
+  path.push_back(ps.back());
 
-	return path;
+  return path;
 }
 
 vec_Vec3f path_downsample_i(const vec_Vec3f& ps, int cnt){
   // subdivide int to cnt segments
-	if(ps.empty() || cnt < 2)
-		return ps;
-	vec_Vec3f path;
-	for(unsigned int i = 1; i < ps.size(); i++){
-		for(int j = 0; j < cnt; j++)
-			path.push_back(ps[i-1] + j * (ps[i] - ps[i-1]) / cnt);
-	}
-	path.push_back(ps.back());
+  if(ps.empty() || cnt < 2)
+    return ps;
+  vec_Vec3f path;
+  for(unsigned int i = 1; i < ps.size(); i++){
+    for(int j = 0; j < cnt; j++)
+      path.push_back(ps[i-1] + j * (ps[i] - ps[i-1]) / cnt);
+  }
+  path.push_back(ps.back());
 
-	return path;
+  return path;
 }
 
 vec_Vec3f path_crop(const vec_Vec3f& ps, decimal_t d){
-	if(ps.size() < 2 || d < 0)
-		return ps;
+  if(ps.size() < 2 || d < 0)
+    return ps;
 
   vec_Vec3f path;
   Vec3f end = ps.back();
@@ -345,46 +345,46 @@ vec_Vec3f path_crop(const vec_Vec3f& ps, decimal_t d){
 }
 
 //**** find the intersection of two polytopes
-vec_E<pair_Vec3f> polytope_intersection(const Polyhedron& vs1,
-		const Polyhedron& vs2){
-	vec_E<pair_Vec3f> candidates;
-	for(const auto& it2: vs2)
-	{
-		bool add = true;
-		for(const auto& it1: vs1)
-		{
-			if((it2.second - it1.second).norm() < epsilon_ &&
-					fabs((it2.first - it1.first).dot(it1.second)) < epsilon_)
-			{
-				add = false;
-				break;
-			}
-		}
-		if(add)
-			candidates.push_back(it2);
-	}
-	vec_E<pair_Vec3f> intersect_vs = vs1;
-	intersect_vs.insert(intersect_vs.end(), candidates.begin(), candidates.end());
-	return intersect_vs;
+Polyhedron polytope_intersection(const Polyhedron& vs1,
+    const Polyhedron& vs2){
+  Polyhedron candidates;
+  for(const auto& it2: vs2)
+  {
+    bool add = true;
+    for(const auto& it1: vs1)
+    {
+      if((it2.n - it1.n).norm() < epsilon_ &&
+          fabs((it2.p - it1.p).dot(it1.n)) < epsilon_)
+      {
+        add = false;
+        break;
+      }
+    }
+    if(add)
+      candidates.push_back(it2);
+  }
+  Polyhedron intersect_vs = vs1;
+  intersect_vs.insert(intersect_vs.end(), candidates.begin(), candidates.end());
+  return intersect_vs;
 }
 
 //**** Create triangles from a face
 vec_E<vec_Vec3f> chop_triangle(const vec_Vec3f& pts){
-	vec_E<vec_Vec3f> trias;
-	if(pts.size() < 3){
-		printf(ANSI_COLOR_RED  "In chop triangles, the number of points is %zu < 3\n" ANSI_COLOR_RESET, pts.size());
-		return trias;
-	}
+  vec_E<vec_Vec3f> trias;
+  if(pts.size() < 3){
+    printf(ANSI_COLOR_RED  "In chop triangles, the number of points is %zu < 3\n" ANSI_COLOR_RESET, pts.size());
+    return trias;
+  }
 
-	const Vec3f ref_pt = pts[0];
-	for(unsigned int i = 1; i < pts.size() - 1; i++){
-		vec_Vec3f tria;
-		tria.push_back(ref_pt);
-		tria.push_back(pts[i]);
-		tria.push_back(pts[i+1]);
-		trias.push_back(tria);
-	}
-	return trias;
+  const Vec3f ref_pt = pts[0];
+  for(unsigned int i = 1; i < pts.size() - 1; i++){
+    vec_Vec3f tria;
+    tria.push_back(ref_pt);
+    tria.push_back(pts[i]);
+    tria.push_back(pts[i+1]);
+    trias.push_back(tria);
+  }
+  return trias;
 }
 
 //**** Calculate the volume of a polytope
@@ -406,15 +406,15 @@ decimal_t cal_volume(const vec_E<vec_Vec3f>& fs, const Vec3f& pt_inside){
 }
 
 //**** Find the centroid of a polygon
-Vec3f cal_centroid_2d(const vec_Vec3f &pts, const pair_Vec3f &p) {
+Vec3f cal_centroid_2d(const vec_Vec3f &pts, const Face &p) {
   if (pts.size() < 3) {
     printf(ANSI_COLOR_RED "In getting 2d centroid, the number of vertices is %zu < 3\n" ANSI_COLOR_RESET,
            pts.size());
-    return p.first;
+    return p.p;
   }
 
-  const Vec3f t = p.first;
-  const Vec3f n = p.second;
+  const Vec3f t = p.p;
+  const Vec3f n = p.n;
   const Quatf q =
       Quatf::FromTwoVectors(Vec3f(0, 0, 1), n);
   const Mat3f R(q); // body to world
@@ -446,52 +446,52 @@ Vec3f cal_centroid_2d(const vec_Vec3f &pts, const pair_Vec3f &p) {
 
 //**** Calculate centroid of a polytope
 Vec3f cal_centroid_3d(const vec_E<vec_Vec3f>& fs, const Vec3f& pt_inside){
-	vec_E<vec_Vec3f> triangles;
-	for(const auto& f: fs){
-		vec_E<vec_Vec3f> trias = chop_triangle(f);
-		triangles.insert(triangles.end(), trias.begin(), trias.end());
-	}
+  vec_E<vec_Vec3f> triangles;
+  for(const auto& f: fs){
+    vec_E<vec_Vec3f> trias = chop_triangle(f);
+    triangles.insert(triangles.end(), trias.begin(), trias.end());
+  }
 
-	decimal_t V = 0;
-	for(const auto& tria: triangles){
-		Vec3f n = (tria[0] - tria[1]).cross(tria[0] - tria[2]);
-		decimal_t v = fabs((tria[0] - pt_inside).dot(n));
-		V += v;
-	}
+  decimal_t V = 0;
+  for(const auto& tria: triangles){
+    Vec3f n = (tria[0] - tria[1]).cross(tria[0] - tria[2]);
+    decimal_t v = fabs((tria[0] - pt_inside).dot(n));
+    V += v;
+  }
 
-	V /= 6;
+  V /= 6;
 
-	Vec3f C(0, 0, 0);
-	for(const auto& tria: triangles){
-		Vec3f n = (tria[1] - tria[0]).cross(tria[2] - tria[0]);
-		Vec3f a = tria[0] - pt_inside;
-		Vec3f b = tria[1] - pt_inside;
-		Vec3f c = tria[2] - pt_inside;
-		if(a.dot(n) < 0)
-			n = -n;
-		for(int i = 0; i< 3; i++)
-			C(i) += n(i) * (std::pow(a(i) + b(i), 2) + std::pow(b(i) + c(i), 2) + std::pow(c(i) + a(i), 2));
-	}
+  Vec3f C(0, 0, 0);
+  for(const auto& tria: triangles){
+    Vec3f n = (tria[1] - tria[0]).cross(tria[2] - tria[0]);
+    Vec3f a = tria[0] - pt_inside;
+    Vec3f b = tria[1] - pt_inside;
+    Vec3f c = tria[2] - pt_inside;
+    if(a.dot(n) < 0)
+      n = -n;
+    for(int i = 0; i< 3; i++)
+      C(i) += n(i) * (std::pow(a(i) + b(i), 2) + std::pow(b(i) + c(i), 2) + std::pow(c(i) + a(i), 2));
+  }
 
-	C /= (2*V*24);
+  C /= (2*V*24);
 
-	return C + pt_inside;
+  return C + pt_inside;
 }
 
 
 //**** Get closest distance
 decimal_t cal_closest_dist(const Vec3f& pt, const Polyhedron& vs){
-	float dist = 10;
-	for(const auto& it: vs){
-		decimal_t d = fabs(it.second.dot(pt - it.first));
-		if(d < dist)
-			dist = d;
-	}
-	return dist;
+  float dist = 10;
+  for(const auto& it: vs){
+    decimal_t d = fabs(it.n.dot(pt - it.p));
+    if(d < dist)
+      dist = d;
+  }
+  return dist;
 }
 
 vec_Vec3f ps_in_ellipsoid(const Ellipsoid &E,
-                          const vec_Vec3f &O) {
+    const vec_Vec3f &O) {
   vec_Vec3f new_O;
   for (const auto &it : O) {
     decimal_t d = (E.first.inverse() * (it - E.second)).norm();

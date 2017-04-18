@@ -39,8 +39,8 @@ vec_LinearConstraint3f EllipseDecomp::get_constraints(){
   return constraints;
 }
 
-vec_Polyhedron EllipseDecomp::get_polyhedra(int id) const {
-  vec_Polyhedron polys;
+Polyhedra EllipseDecomp::get_polyhedra(int id) const {
+  Polyhedra polys;
   if(id == 0)
     return polyhedrons_;
   else
@@ -57,18 +57,18 @@ vec_Vec3f EllipseDecomp::get_pts() const {
   return pts;
 }
 
-void EllipseDecomp::add_bounding(vec_E<pair_Vec3f> &Vs) {
+void EllipseDecomp::add_bounding(Polyhedron &Vs) {
   //**** add bound along X, Y, Z axis
   //*** Z
-  Vs.push_back(std::make_pair(Vec3f(0, 0, max_(2)), Vec3f(0, 0, 1)));
-  Vs.push_back(std::make_pair(Vec3f(0, 0, min_(2)), Vec3f(0, 0, -1)));
+  Vs.push_back(Face(Vec3f(0, 0, max_(2)), Vec3f(0, 0, 1)));
+  Vs.push_back(Face(Vec3f(0, 0, min_(2)), Vec3f(0, 0, -1)));
 
   //*** X
-  Vs.push_back(std::make_pair(Vec3f(max_(0), 0, 0), Vec3f(1, 0, 0)));
-  Vs.push_back(std::make_pair(Vec3f(min_(0), 0, 0), Vec3f(-1, 0, 0)));
+  Vs.push_back(Face(Vec3f(max_(0), 0, 0), Vec3f(1, 0, 0)));
+  Vs.push_back(Face(Vec3f(min_(0), 0, 0), Vec3f(-1, 0, 0)));
   //*** Y
-  Vs.push_back(std::make_pair(Vec3f(0, max_(1), 0), Vec3f(0, 1, 0)));
-  Vs.push_back(std::make_pair(Vec3f(0, min_(1), 0), Vec3f(0, -1, 0)));
+  Vs.push_back(Face(Vec3f(0, max_(1), 0), Vec3f(0, 1, 0)));
+  Vs.push_back(Face(Vec3f(0, min_(1), 0), Vec3f(0, -1, 0)));
 }
 
 bool EllipseDecomp::decomp(const vec_Vec3f &poses,
@@ -124,7 +124,7 @@ void EllipseDecomp::change_end(decimal_t z_up, decimal_t z_down){
   const Vec3f p1 = center_path_[center_path_.size() - 2];
   const Vec3f p2 = center_path_.back();
   const Vec3f n = (p2 - p1).normalized();
-  pair_Vec3f p = std::make_pair(p2, n);
+  Face p(p2, n);
   Polyhedron vs = polyhedrons_.back();
 
   //**** virtual walls parallel to path p1->p2
@@ -135,14 +135,14 @@ void EllipseDecomp::change_end(decimal_t z_up, decimal_t z_down){
     dir_h << -1, 0, 0;
   Vec3f pp1 = p1 + dir_h * 3.0;
   Vec3f pp2 = p1 - dir_h * 3.0;
-  vs.push_back(std::make_pair(pp1, dir_h));
-  vs.push_back(std::make_pair(pp2, -dir_h));
+  vs.push_back(Face(pp1, dir_h));
+  vs.push_back(Face(pp2, -dir_h));
 
   Vec3f dir_v = dir.cross(dir_h);
   Vec3f pp3 = p1 + dir_v * z_up;
   Vec3f pp4 = p1 - dir_v * z_down;
-  vs.push_back(std::make_pair(pp3, dir_v));
-  vs.push_back(std::make_pair(pp4, -dir_v));
+  vs.push_back(Face(pp3, dir_v));
+  vs.push_back(Face(pp4, -dir_v));
   vec_Vec3f valid_pts = plane_polytope_intersection(p, vs);
   Vec3f c = cal_centroid_2d(valid_pts, p);
   if (inside_polytope(c, polyhedrons_.back())) {
@@ -157,7 +157,7 @@ void EllipseDecomp::change_end(decimal_t z_up, decimal_t z_down){
 }
 
 
-vec_Vec3f EllipseDecomp::cal_centers(const vec_Polyhedron &intersect_vs) {
+vec_Vec3f EllipseDecomp::cal_centers(const Polyhedra &intersect_vs) {
   vec_Vec3f path;
   for (unsigned int i = 0; i < intersect_vs.size(); i++) {
     Polyhedron vs = intersect_vs[i];
@@ -169,8 +169,8 @@ vec_Vec3f EllipseDecomp::cal_centers(const vec_Polyhedron &intersect_vs) {
     Vec3f dir_v(0, 0, 1);
     Vec3f pp3 = pt + dir_v * 0.2;
     Vec3f pp4 = pt - dir_v * 0.2;
-    vs.push_back(std::make_pair(pp3, dir_v));
-    vs.push_back(std::make_pair(pp4, -dir_v));
+    vs.push_back(Face(pp3, dir_v));
+    vs.push_back(Face(pp4, -dir_v));
 
     vec_E<vec_Vec3f> bs = cal_extreme_points(vs);
     Vec3f avg = Vec3f::Zero();

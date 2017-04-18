@@ -11,8 +11,8 @@ Vec3f eigen_value(const Mat3f& A);
 //**** Sort poits in an order
 vec_Vec3f sort_pts(const vec_Vec3f &pts);
 
-inline decimal_t dist(const Vec3f& p, const pair_Vec3f& v){
-  return std::fabs(v.second.dot(p - v.first));
+inline decimal_t dist(const Vec3f& p, const Face& v){
+  return std::fabs(v.n.dot(p - v.p));
 }
 
 //**** Determine if a point p is inside polytope
@@ -44,7 +44,7 @@ vec_Vec3f line_intersects(const vec_E<pair_Vec3f> &lines);
 vec_E<vec_Vec3f> cal_extreme_points(const Polyhedron &vts);
 
 //**** Find intersect polygon between a plane and polytope
-vec_Vec3f plane_polytope_intersection(const pair_Vec3f &plane,
+vec_Vec3f plane_polytope_intersection(const Face &plane,
                                       const Polyhedron& vts);
 
 //**** uniformly sample path into many segments
@@ -55,8 +55,8 @@ vec_Vec3f path_downsample_i(const vec_Vec3f& ps, int cnt);
 vec_Vec3f path_crop(const vec_Vec3f& path, decimal_t d);
 
 //**** find the intersection of two polytopes
-vec_E<pair_Vec3f> polytope_intersection(const Polyhedron& vs1,
-                                              const Polyhedron& vs2);
+Polyhedron polytope_intersection(const Polyhedron& vs1,
+    const Polyhedron& vs2);
 
 //**** Create triangles from a face
 vec_E<vec_Vec3f> chop_triangle(const vec_Vec3f& pts);
@@ -65,7 +65,7 @@ vec_E<vec_Vec3f> chop_triangle(const vec_Vec3f& pts);
 decimal_t cal_volume(const vec_E<vec_Vec3f>& fs, const Vec3f& pt_inside);
 
 //**** Find the centroid of a polygon
-Vec3f cal_centroid_2d(const vec_Vec3f &pts, const pair_Vec3f &p);
+Vec3f cal_centroid_2d(const vec_Vec3f &pts, const Face&p);
 
 
 //**** Calculate centroid of a polytope

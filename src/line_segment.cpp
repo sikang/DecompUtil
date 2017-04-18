@@ -35,7 +35,7 @@ vec_Vec3f LineSegment::ps_in_polytope(const Polyhedron &Vs,
 }
 
 
-pair_Vec3f LineSegment::closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O) {
+Face LineSegment::closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O) {
   decimal_t dist = std::numeric_limits<decimal_t>::max();
   Vec3f vt, best_v;
   best_v = E.second;
@@ -50,7 +50,7 @@ pair_Vec3f LineSegment::closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O)
   Vec3f a = E.first.inverse() * E.first.inverse().transpose() *
     (best_v - E.second);
   a = a.normalized();
-  return std::make_pair(best_v, a);
+  return Face(best_v, a);
 }
 
 Ellipsoid LineSegment::find_ellipsoid(const Vec3f& p1, const Vec3f& p2){
@@ -184,11 +184,11 @@ Polyhedron LineSegment::find_polyhedron(const Ellipsoid& E){
   Polyhedron Vs;
   vec_Vec3f O_remain = obs_;
   while (!O_remain.empty()) {
-    pair_Vec3f v = closest_obstacle(E, O_remain);
+    Face v = closest_obstacle(E, O_remain);
     adjust(v);
     Vs.push_back(v);
-    Vec3f a = v.second;
-    decimal_t b = v.first.dot(a);
+    Vec3f a = v.n;
+    decimal_t b = v.p.dot(a);
     vec_Vec3f O_tmp;
     for (const auto &it : O_remain) {
       if (a.dot(it) - b < 0)
@@ -200,9 +200,9 @@ Polyhedron LineSegment::find_polyhedron(const Ellipsoid& E){
   return Vs;
 }
 
-void LineSegment::adjust(pair_Vec3f& v){
-  decimal_t d1 = fabs(v.second.dot(p1_ - v.first));
-  decimal_t d2 = fabs(v.second.dot(p2_ - v.first));
+void LineSegment::adjust(Face& v){
+  decimal_t d1 = fabs(v.n.dot(p1_ - v.p));
+  decimal_t d2 = fabs(v.n.dot(p2_ - v.p));
   decimal_t d = std::min(d1, d2);
   if(d >= robot_radius_ )
     return;
@@ -217,9 +217,9 @@ void LineSegment::adjust(pair_Vec3f& v){
     pp = p1_;
   }
 
-  const Vec3f pv = v.first;
+  const Vec3f pv = v.p;
   const Vec3f n1 = (pv - p).normalized();
-  const Vec3f n3 = (v.second.cross(n1)).normalized();
+  const Vec3f n3 = (v.n.cross(n1)).normalized();
   const Vec3f n2 = (n3.cross(n1)).normalized();
 
   Aff3f TFbw;
@@ -244,13 +244,13 @@ void LineSegment::adjust(pair_Vec3f& v){
   const Vec3f new_n1 = (new_p1-p).normalized();
   const Vec3f new_n2 = (new_p2-p).normalized();
 
-  d1 = -new_n1.dot(pp - v.first);
-  d2 = -new_n2.dot(pp - v.first);
+  d1 = -new_n1.dot(pp - v.p);
+  d2 = -new_n2.dot(pp - v.p);
 
   if(d1 > robot_radius_)
-    v.second = new_n1;
+    v.n = new_n1;
   else if(d2 > robot_radius_)
-    v.second = new_n2;
+    v.n = new_n2;
 }
 
 void LineSegment::add_virtual_wall(Polyhedron &Vs) {
@@ -262,19 +262,19 @@ void LineSegment::add_virtual_wall(Polyhedron &Vs) {
     dir_h << -1, 0, 0;
   Vec3f pp1 = p1_ + dir_h * VIRTUAL_V;
   Vec3f pp2 = p1_ - dir_h * VIRTUAL_V;
-  Vs.push_back(std::make_pair(pp1, dir_h));
-  Vs.push_back(std::make_pair(pp2, -dir_h));
+  Vs.push_back(Face(pp1, dir_h));
+  Vs.push_back(Face(pp2, -dir_h));
 
   Vec3f dir_v = dir.cross(dir_h);
   Vec3f pp3 = p1_ + dir_v * VIRTUAL_V;
   Vec3f pp4 = p1_ - dir_v * VIRTUAL_V;
-  Vs.push_back(std::make_pair(pp3, dir_v));
-  Vs.push_back(std::make_pair(pp4, -dir_v));
+  Vs.push_back(Face(pp3, dir_v));
+  Vs.push_back(Face(pp4, -dir_v));
 
   Vec3f pp5 = p2_ + dir * VIRTUAL_H;
   Vec3f pp6 = p1_ - dir * VIRTUAL_H;
-  Vs.push_back(std::make_pair(pp5, dir));
-  Vs.push_back(std::make_pair(pp6, -dir));
+  Vs.push_back(Face(pp5, dir));
+  Vs.push_back(Face(pp6, -dir));
 }
 
 void LineSegment::dilate(decimal_t thr) {
@@ -304,12 +304,12 @@ decimal_t LineSegment::polyhedron_volume() {
 
 void LineSegment::shrink(const Vec3f& p1, const Vec3f& p2, decimal_t thr) {
   for (auto &it : polyhedron_) {
-    decimal_t b = it.first.dot(it.second);
-    decimal_t d1 = it.second.dot(p1) - b;
-    decimal_t d2 = it.second.dot(p2) - b;
+    decimal_t b = it.p.dot(it.n);
+    decimal_t d1 = it.n.dot(p1) - b;
+    decimal_t d2 = it.n.dot(p2) - b;
     decimal_t d = -std::max(d1, d2);
     d = d < thr ? d : thr;
     if (d > 0.1)
-      it.first -= d * it.second;
+      it.p -= d * it.n;
   }
 }

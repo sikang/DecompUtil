@@ -18,7 +18,7 @@ public:
 
   vec_Vec3f get_dilate_path() const { return dilate_path_; }
   vec_Vec3f get_center_path() const { return center_path_; }
-  vec_Polyhedron get_polyhedra(int id = 0) const;
+  Polyhedra get_polyhedra(int id = 0) const;
   vec_Ellipsoid get_ellipsoids() const { return ellipsoids_; }
   vec_Vec3f get_pts() const;
   vec_LinearConstraint3f get_constraints();
@@ -36,17 +36,17 @@ public:
 
 protected:
   void clear();
-  void add_bounding(vec_E<pair_Vec3f> &Vs);
+  void add_bounding(Polyhedron &Vs);
 
-  vec_Vec3f cal_centers(const vec_Polyhedron &Vs);
+  vec_Vec3f cal_centers(const Polyhedra &Vs);
 
   vec_Vec3f dilate_path_;
   vec_Vec3f center_path_;
   vec_Vec3f obs_;
 
   vec_Ellipsoid ellipsoids_;
-  vec_Polyhedron polyhedrons_;
-  vec_Polyhedron intersect_polyhedrons_;
+  Polyhedra polyhedrons_;
+  Polyhedra intersect_polyhedrons_;
   std::vector<std::shared_ptr<LineSegment>> lines_;
 
   Vec3f min_; // bounding box for visualization
