@@ -5,8 +5,8 @@
  * Mostly alias from Eigen Library.
  */
 
-#ifndef BASIC_DATA_H
-#define BASIC_DATA_H
+#ifndef DECOMP_BASIC_DATA_H
+#define DECOMP_BASIC_DATA_H
 #include <stdio.h>
 #include <math.h>
 #include <limits>
