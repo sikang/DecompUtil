@@ -5,8 +5,8 @@
  * Mostly alias from Eigen Library.
  */
 
-#ifndef DECOMP_BASIC_DATA_H
-#define DECOMP_BASIC_DATA_H
+#ifndef BASIC_POLY_DATA_H
+#define BASIC_POLY_DATA_H
 #include <stdio.h>
 #include <math.h>
 #include <limits>
@@ -113,7 +113,6 @@ struct Face {
 typedef vec_E<Face> Polyhedron; // composed by planes with form (p, n)
 typedef vec_E<Polyhedron> Polyhedra;
 
-///Compensate for numerical error
-constexpr decimal_t epsilon_ = 1e-6; // numerical calculation effect
+typedef vec_E<vec_Vec3f> BoundVec3f; // compose by extreme points
 
 #endif
