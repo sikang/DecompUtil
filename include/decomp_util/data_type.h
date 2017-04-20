@@ -1,12 +1,12 @@
 /**
- *@file data_type.h
+ * @file data_type.h
  * @brief Defines all data types used in this lib
 
  * Mostly alias from Eigen Library.
  */
 
-#ifndef BASIC_POLY_DATA_H
-#define BASIC_POLY_DATA_H
+#ifndef BASIC_DATA_H
+#define BASIC_DATA_H
 #include <stdio.h>
 #include <math.h>
 #include <limits>
