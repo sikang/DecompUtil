@@ -10,10 +10,10 @@ IF(USE_ROS)
   # roslib cmake_modules
   FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp)
   catkin_package(
-    DEPENDS Eigen3 
-    CATKIN_DEPENDS 
+    DEPENDS Eigen3
+    CATKIN_DEPENDS
     INCLUDE_DIRS include
-    LIBRARIES ellipse_decomp ellipsoid_utils iterative_decomp
+    LIBRARIES ellipse_decomp ellipsoid_utils iterative_decomp geometry_utils
     )
   INCLUDE_DIRECTORIES(${catkin_INCLUDE_DIRS})
   LIST(APPEND LINK_LIBS ${catkin_LIBRARIES})
