@@ -301,15 +301,14 @@ decimal_t LineSegment::polyhedron_volume() {
 }
 
 
-
 void LineSegment::shrink(const Vec3f& p1, const Vec3f& p2, decimal_t thr) {
   for (auto &it : polyhedron_) {
     decimal_t b = it.p.dot(it.n);
     decimal_t d1 = it.n.dot(p1) - b;
     decimal_t d2 = it.n.dot(p2) - b;
-    decimal_t d = -std::max(d1, d2);
+    decimal_t d = -std::max(d1, d2) - 0.1;
     d = d < thr ? d : thr;
-    if (d > 0.1)
+    if (d > 0.0)
       it.p -= d * it.n;
   }
 }
