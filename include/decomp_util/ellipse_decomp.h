@@ -52,6 +52,7 @@ protected:
   Vec3f min_; // bounding box for visualization
   Vec3f max_;
 
+  bool use_2d_ = true;
   bool verbose_;
 };
 #endif
