@@ -108,6 +108,11 @@ bool EllipseDecomp::decomp(const vec_Vec3f &poses,
   center_path_ = cal_centers(intersect_polyhedrons_);
   center_path_.push_back(poses.back());
   center_path_.insert(center_path_.begin(), poses.front());
+  if(use_2d_) {
+    decimal_t init_z = poses.front()(2);
+    for(auto& pose: center_path_)
+      pose(2) = init_z;
+  }
 
   for(unsigned int i = 0; i < lines_.size(); i++){
     //lines_[i]->shrink(dilate_path_[i], dilate_path_[i+1], d);
