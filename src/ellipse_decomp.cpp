@@ -91,7 +91,7 @@ bool EllipseDecomp::decomp(const vec_Vec3f &poses,
 
   for (unsigned int i = 0; i < N; i++) {
     lines_[i] = std::make_shared<LineSegment>(poses[i], poses[i+1], false);
-    lines_[i]->set_virtual_dim(10, h);
+    lines_[i]->set_virtual_dim(20, h);
     lines_[i]->set_obstacles(obs_);
     lines_[i]->dilate(d);
 
