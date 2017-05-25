@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8.3)
 project(decomp_util)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wno-deprecated-declarations")
 
-set(USE_ROS TRUE)
+option(USE_ROS "Use catkin build system" TRUE)
+option(BUILD_SHARED_LIBS "Build shared libraries." TRUE)
 
 
 IF(USE_ROS)
@@ -33,3 +34,31 @@ target_link_libraries(iterative_decomp ellipse_decomp geometry_utils)
 
 add_library(ellipsoid_utils src/ellipsoid_utils.cpp)
 target_link_libraries(ellipsoid_utils geometry_utils)
+
+IF(USE_ROS)
+	install(TARGETS
+	    geometry_utils
+	    ellipsoid_utils 
+	    iterative_decomp 
+	    geometry_utils
+	  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+	  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+	  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+	install(
+      DIRECTORY include/
+	    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+	)
+ELSE()
+	install(TARGETS
+	    geometry_utils
+	    ellipsoid_utils 
+	    iterative_decomp 
+	    geometry_utils
+	  ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+	  LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+	  RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+	install(
+      DIRECTORY include/
+	    DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+	)
+ENDIF()
