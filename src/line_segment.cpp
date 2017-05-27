@@ -23,9 +23,7 @@ void LineSegment::set_obstacles(const vec_Vec3f& obs) {
 }
 
 
-vec_Vec3f LineSegment::ps_in_polytope(const Polyhedron &Vs,
-                                      const vec_Vec3f &O) {
-
+vec_Vec3f LineSegment::ps_in_polytope(const Polyhedron &Vs, const vec_Vec3f &O) {
   vec_Vec3f new_O;
   for (const auto &it : O) {
     if (inside_polytope(it, Vs))

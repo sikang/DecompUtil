@@ -1,3 +1,9 @@
+/**
+ * @file line_segment.h
+ * @brief LineSegment Class
+ *
+ * Inflate a line segment into polyhydron.
+ */
 #ifndef LINE_SEGMENT_H
 #define LINE_SEGMENT_H
 
@@ -7,6 +13,13 @@
 class LineSegment{
   public:
     LineSegment();
+    /**
+     * @brief Construction 
+     *
+     * @param p1 is one end of the line segment
+     * @param p2 is the other end
+     * @param debug flag for informing
+     */
     LineSegment(const Vec3f &p1, const Vec3f &p2, bool debug = false);
     void set_virtual_dim(decimal_t h, decimal_t v);
     void set_obstacles(const vec_Vec3f &obs);

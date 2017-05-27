@@ -1,3 +1,7 @@
+/**
+ * @file ellipse_decomp.h
+ * @brief EllipseDecomp Class
+ */
 #ifndef ELLIPSE_DECOMP_H
 #define ELLIPSE_DECOMP_H
 
@@ -13,7 +17,7 @@ class EllipseDecomp {
 public:
   EllipseDecomp() {};
   EllipseDecomp(const Vec3f &origin, const Vec3f &dim, bool verbose = false);
-	~EllipseDecomp(){};
+  ~EllipseDecomp(){};
   void set_obstacles(const vec_Vec3f &obs) { obs_ = obs; }
 
   vec_Vec3f get_dilate_path() const { return dilate_path_; }

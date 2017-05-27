@@ -95,7 +95,9 @@ typedef std::pair<Mat3f, Vec3f> Ellipsoid;
 ///Vector of Ellipsoids
 typedef vec_E<Ellipsoid> vec_Ellipsoid;
 
-typedef std::pair<MatD3f, VecDf> LinearConstraint3f; // Ax <= b
+///[A, b] for \f$Ax <= b\f$
+typedef std::pair<MatD3f, VecDf> LinearConstraint3f; 
+///Vector of LinearConstraint
 typedef vec_E<LinearConstraint3f> vec_LinearConstraint3f;
 
 struct Face {
@@ -103,7 +105,6 @@ struct Face {
   Vec3f n;
   bool pass;
 
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
   Face(Vec3f _p, Vec3f _n):
     p(_p), n(_n), pass(true) {}
   Face(Vec3f _p, Vec3f _n, bool _pass):
