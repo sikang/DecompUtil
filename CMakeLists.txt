@@ -37,7 +37,7 @@ target_link_libraries(ellipsoid_utils geometry_utils)
 
 IF(USE_ROS)
 	install(TARGETS
-	    geometry_utils
+	    ellipse_decomp
 	    ellipsoid_utils 
 	    iterative_decomp 
 	    geometry_utils
@@ -50,7 +50,7 @@ IF(USE_ROS)
 	)
 ELSE()
 	install(TARGETS
-	    geometry_utils
+	    ellipse_decomp
 	    ellipsoid_utils 
 	    iterative_decomp 
 	    geometry_utils
