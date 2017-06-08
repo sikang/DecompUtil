@@ -68,7 +68,7 @@ bool inside_ellipsoid(const Ellipsoid& E,
     const vec_Vec3f& O) {
   for (const auto &it : O) {
     decimal_t d = (E.first.inverse() * (it - E.second)).norm();
-    if (d < 1 - 0.00) return true;
+    if (d < 1 - 0.001) return true;
   }
   return false;
 }
