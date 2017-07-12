@@ -32,7 +32,6 @@ public:
   void clean();
   void info();
 
-  void change_end(decimal_t z_up = 0.1, decimal_t z_down = 0.1);
   bool decomp(const vec_Vec3f &poses,
       decimal_t d = 0.0,
       decimal_t ds = 1.0,
@@ -56,7 +55,6 @@ protected:
   Vec3f min_; // bounding box for visualization
   Vec3f max_;
 
-  bool use_2d_ = true;
   bool verbose_;
 };
 #endif

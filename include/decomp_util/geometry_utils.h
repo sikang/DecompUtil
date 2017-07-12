@@ -6,7 +6,7 @@
 #include <Eigen/Eigenvalues>
 
 ///Compensate for numerical error
-constexpr decimal_t epsilon_ = 1e-3; // numerical calculation effect
+constexpr decimal_t epsilon_ = 1e-6; // numerical calculation effect
 
 //**** Calculate eigen values
 Vec3f eigen_value(const Mat3f& A);

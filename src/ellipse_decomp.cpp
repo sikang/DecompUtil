@@ -108,11 +108,6 @@ bool EllipseDecomp::decomp(const vec_Vec3f &poses,
   center_path_ = cal_centers(intersect_polyhedrons_);
   center_path_.push_back(poses.back());
   center_path_.insert(center_path_.begin(), poses.front());
-  if(use_2d_) {
-    decimal_t init_z = poses.front()(2);
-    for(auto& pose: center_path_)
-      pose(2) = init_z;
-  }
 
   for(unsigned int i = 0; i < lines_.size(); i++){
     //lines_[i]->shrink(dilate_path_[i], dilate_path_[i+1], d);
@@ -121,44 +116,6 @@ bool EllipseDecomp::decomp(const vec_Vec3f &poses,
     add_bounding(polyhedrons_[i]);
   }
   return true;
-}
-
-
-//**** prev_v is the second last point
-void EllipseDecomp::change_end(decimal_t z_up, decimal_t z_down){
-  const Vec3f p1 = center_path_[center_path_.size() - 2];
-  const Vec3f p2 = center_path_.back();
-  const Vec3f n = (p2 - p1).normalized();
-  Face p(p2, n);
-  Polyhedron vs = polyhedrons_.back();
-
-  //**** virtual walls parallel to path p1->p2
-  Vec3f dir = p2 - p1;
-  dir /= dir.norm();
-  Vec3f dir_h(-dir(1), dir(0), 0);
-  if (dir_h == Vec3f::Zero())
-    dir_h << -1, 0, 0;
-  Vec3f pp1 = p1 + dir_h * 3.0;
-  Vec3f pp2 = p1 - dir_h * 3.0;
-  vs.push_back(Face(pp1, dir_h));
-  vs.push_back(Face(pp2, -dir_h));
-
-  Vec3f dir_v = dir.cross(dir_h);
-  Vec3f pp3 = p1 + dir_v * z_up;
-  Vec3f pp4 = p1 - dir_v * z_down;
-  vs.push_back(Face(pp3, dir_v));
-  vs.push_back(Face(pp4, -dir_v));
-  vec_Vec3f valid_pts = plane_polytope_intersection(p, vs);
-  Vec3f c = cal_centroid_2d(valid_pts, p);
-  if (inside_polytope(c, polyhedrons_.back())) {
-    center_path_.back() = c;
-    if(verbose_)
-      printf(ANSI_COLOR_GREEN "Change end! \n" ANSI_COLOR_RESET);
-  }
-  else{
-    if(verbose_)
-      printf(ANSI_COLOR_RED "Change end failed! \n" ANSI_COLOR_RESET);
-  }
 }
 
 

@@ -193,6 +193,10 @@ Polyhedron LineSegment::find_polyhedron(const Ellipsoid& E){
         O_tmp.push_back(it);
     }
     O_remain = O_tmp;
+    /*
+    std::cout << "a: " << a.transpose() << std::endl;
+    std::cout << "b: " << b << std::endl;
+    */
   }
 
   return Vs;
