@@ -18,7 +18,7 @@ $ cd ~/catkin_ws & catkin_make -DCMAKE_BUILD_TYPE=Release
 ## Example
 The output from `EllipseDecomp` or `IterativeDecomp` can be visualized with ROS Rviz:
 
-<img src="./samples/sample1.png" width="256"> <img src="./samples/sample2.png" width="256">
+<img src="./samples/sample1.png" height="256"> <img src="./samples/sample2.png" height="256">
 
 
 ## Doxygen
