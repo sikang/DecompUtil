@@ -19,7 +19,7 @@ IterativeDecomp::IterativeDecomp(const Vec3f &origin, const Vec3f &dim, bool ver
   }
 }
 
-bool IterativeDecomp::decomp_iter(const vec_Vec3f& poses, int iter_num){
+bool IterativeDecomp::decomp_iter(const vec_Vec3f& poses, int iter_num, bool forced){
   vec_Vec3f path = poses;
   int cnt = 0;
   for(int i = 0; i < iter_num; i++){
@@ -27,8 +27,10 @@ bool IterativeDecomp::decomp_iter(const vec_Vec3f& poses, int iter_num){
       return false;
     cnt ++;
     vec_Vec3f new_path;
-    new_path = simplify(center_path_);
-    //new_path = simplify(path);
+    if(!forced)
+      new_path = simplify(center_path_);
+    else
+      new_path = simplify(path);
     bool converge = false;
     if(new_path.size() == path.size()){
       converge = true;

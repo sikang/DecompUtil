@@ -92,9 +92,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a84366bb0b8563d6f802b0540f11216c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIterativeDecomp.html#a84366bb0b8563d6f802b0540f11216c8">IterativeDecomp</a> (const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;origin, const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;dim, bool verbose=false)</td></tr>
 <tr class="memdesc:a84366bb0b8563d6f802b0540f11216c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a84366bb0b8563d6f802b0540f11216c8">More...</a><br /></td></tr>
 <tr class="separator:a84366bb0b8563d6f802b0540f11216c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7048cad57c82aeb047e3926a8f8998df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIterativeDecomp.html#a7048cad57c82aeb047e3926a8f8998df">decomp_iter</a> (const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;poses, int iter_num=5)</td></tr>
-<tr class="memdesc:a7048cad57c82aeb047e3926a8f8998df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decomposition thread.  <a href="#a7048cad57c82aeb047e3926a8f8998df">More...</a><br /></td></tr>
-<tr class="separator:a7048cad57c82aeb047e3926a8f8998df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3da882a78849f5006316b519bf55279b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIterativeDecomp.html#a3da882a78849f5006316b519bf55279b">decomp_iter</a> (const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;poses, int iter_num=5, bool forced=false)</td></tr>
+<tr class="memdesc:a3da882a78849f5006316b519bf55279b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decomposition thread.  <a href="#a3da882a78849f5006316b519bf55279b">More...</a><br /></td></tr>
+<tr class="separator:a3da882a78849f5006316b519bf55279b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classEllipseDecomp"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEllipseDecomp')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classEllipseDecomp.html">EllipseDecomp</a></td></tr>
 <tr class="memitem:abb2de92ede069bc3a87b7bb7aa7c93ec inherit pub_methods_classEllipseDecomp"><td class="memItemLeft" align="right" valign="top"><a id="abb2de92ede069bc3a87b7bb7aa7c93ec"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#abb2de92ede069bc3a87b7bb7aa7c93ec">EllipseDecomp</a> (bool verbose=false)</td></tr>
@@ -270,8 +270,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false<
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a7048cad57c82aeb047e3926a8f8998df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7048cad57c82aeb047e3926a8f8998df">&#9670;&nbsp;</a></span>decomp_iter()</h2>
+<a id="a3da882a78849f5006316b519bf55279b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3da882a78849f5006316b519bf55279b">&#9670;&nbsp;</a></span>decomp_iter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +286,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false<
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>iter_num</em> = <code>5</code>&#160;</td>
+          <td class="paramname"><em>iter_num</em> = <code>5</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>forced</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -301,6 +307,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false<
   <table class="params">
     <tr><td class="paramname">poses</td><td>The path to dilate </td></tr>
     <tr><td class="paramname">iter_num</td><td>Max iteration number </td></tr>
+    <tr><td class="paramname">forced</td><td>If true, the original path wont change </td></tr>
   </table>
   </dd>
 </dl>
