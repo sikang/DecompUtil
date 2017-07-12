@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['total_5fdistance',['total_distance',['../data__utils_8h.html#a3f82ae87bcf143405fd986be6ca44a68',1,'data_utils.h']]],
-  ['transform_5fvec',['transform_vec',['../data__utils_8h.html#ac3745ddcc3002193bbcd5caab64cd1df',1,'data_utils.h']]]
+  ['decomp',['decomp',['../classEllipseDecomp.html#af6f8006fa012957fefbff9fc6cc27f1d',1,'EllipseDecomp']]],
+  ['decomp_5fiter',['decomp_iter',['../classIterativeDecomp.html#a7048cad57c82aeb047e3926a8f8998df',1,'IterativeDecomp']]],
+  ['dilate',['dilate',['../classLineSegment.html#a3215b0e2387333e67ccf5101b4514af0',1,'LineSegment']]]
 ];

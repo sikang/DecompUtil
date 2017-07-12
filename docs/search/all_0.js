@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['adjust',['adjust',['../classLineSegment.html#a7aeb9ebb69d59eb621e7e7fd5dd8a0a9',1,'LineSegment']]],
   ['aff2f',['Aff2f',['../data__type_8h.html#a3b95b3d43bb8590852e0e74abaff3c6a',1,'data_type.h']]],
   ['aff3f',['Aff3f',['../data__type_8h.html#a99980a710976449f0a9d3d2ae8b8be87',1,'data_type.h']]],
   ['ansi_5fcolor_5fblue',['ANSI_COLOR_BLUE',['../data__type_8h.html#aca16e6a49eb51333c5fd3eee19487315',1,'data_type.h']]],

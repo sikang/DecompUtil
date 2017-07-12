@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['compp',['compP',['../data__utils_8h.html#a494c6b874530e84bdc083ff30a614e36',1,'data_utils.h']]]
+  ['adjust',['adjust',['../classLineSegment.html#a7aeb9ebb69d59eb621e7e7fd5dd8a0a9',1,'LineSegment']]]
 ];

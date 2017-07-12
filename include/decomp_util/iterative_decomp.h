@@ -1,19 +1,36 @@
+/**
+ * @file iterative_decomp.h
+ * @brief IterativeDecomp Class
+ */
 #ifndef ITERATIVE_DECOMP_H
 #define ITERATIVE_DECOMP_H
 
 #include <decomp_util/ellipse_decomp.h>
 
+/**
+ * @brief IterativeDecomp Class
+ *
+ * Iteratively calls ElliseDecomp to form a safer Safe Flight Corridor that is away from obstacles
+ */
 class IterativeDecomp : public EllipseDecomp
 {
   public:
+    ///Simple constructor
+    IterativeDecomp(bool verbose = false);
+    /**
+     * @brief Basic constructor
+     * @param origin The origin of the global bounding box
+     * @param dim The dimension of the global bounding box
+     */
     IterativeDecomp(const Vec3f &origin, const Vec3f &dim, bool verbose = false);
-    bool decomp_iter(const vec_Vec3f &poses,
-                     decimal_t d = 0.0,
-                     decimal_t ds = 1.0,
-                     decimal_t h = 3.0,
-                     int iter_num = 5,
-		     bool fixed = false);
+    /**
+     * @brief Decomposition thread
+     * @param poses The path to dilate
+     * @param iter_num Max iteration number
+     */
+    bool decomp_iter(const vec_Vec3f &poses, int iter_num = 5);
   private:
+    ///Remove redundant waypoints
     vec_Vec3f simplify(const vec_Vec3f& path);
 
 };

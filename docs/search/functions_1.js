@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['linesegment',['LineSegment',['../classLineSegment.html#a0c797faa509644d1ac65d50aa6eefbab',1,'LineSegment']]]
+  ['clean',['clean',['../classEllipseDecomp.html#a2069804f425582913aaaca6836123651',1,'EllipseDecomp']]],
+  ['compp',['compP',['../data__utils_8h.html#a494c6b874530e84bdc083ff30a614e36',1,'data_utils.h']]]
 ];

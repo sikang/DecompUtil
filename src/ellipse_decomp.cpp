@@ -1,18 +1,22 @@
 #include <decomp_util/ellipse_decomp.h>
 
+EllipseDecomp::EllipseDecomp(bool verbose) {
+  has_bounding_box_ = false;
+  verbose_ = verbose;
+  if(verbose_)
+    printf(ANSI_COLOR_GREEN "DECOMP VERBOSE ON! \n" ANSI_COLOR_RESET);
+}
+
 EllipseDecomp::EllipseDecomp(const Vec3f &origin, const Vec3f &dim, bool verbose){
+  has_bounding_box_ = true;
   min_ = origin;
   max_ = origin + dim;
   verbose_ = verbose;
-  if(verbose_){
-    printf(ANSI_COLOR_GREEN "DECOMP VERBOSE ON! \n");
-    info();
-  }
-}
-
-void EllipseDecomp::info() {
+  if(verbose_) {
+    printf(ANSI_COLOR_GREEN "DECOMP VERBOSE ON! \n" ANSI_COLOR_RESET);
     printf("Min: [%f, %f, %f]\n", min_(0), min_(1), min_(2));
-    printf("Max: [%f, %f, %f]\n" ANSI_COLOR_RESET, max_(0), max_(1), max_(2));
+    printf("Max: [%f, %f, %f]\n", max_(0), max_(1), max_(2));
+  }
 }
 
 void EllipseDecomp::clean() {
@@ -39,24 +43,6 @@ vec_LinearConstraint3f EllipseDecomp::get_constraints(){
   return constraints;
 }
 
-Polyhedra EllipseDecomp::get_polyhedra(int id) const {
-  Polyhedra polys;
-  if(id == 0)
-    return polyhedrons_;
-  else
-    return intersect_polyhedrons_;
-}
-
-vec_Vec3f EllipseDecomp::get_pts() const {
-  vec_Vec3f pts;
-  for(const auto& l: lines_) {
-    vec_Vec3f ps = l->pts();
-    pts.insert(pts.end(), ps.begin(), ps.end());
-  }
-
-  return pts;
-}
-
 void EllipseDecomp::add_bounding(Polyhedron &Vs) {
   //**** add bound along X, Y, Z axis
   //*** Z
@@ -71,10 +57,7 @@ void EllipseDecomp::add_bounding(Polyhedron &Vs) {
   Vs.push_back(Face(Vec3f(0, min_(1), 0), Vec3f(0, -1, 0)));
 }
 
-bool EllipseDecomp::decomp(const vec_Vec3f &poses,
-                           decimal_t d,
-                           decimal_t ds,
-                           decimal_t h) {
+bool EllipseDecomp::decomp(const vec_Vec3f &poses) {
   clear();
   if (poses.size() < 2)
   {
@@ -90,10 +73,11 @@ bool EllipseDecomp::decomp(const vec_Vec3f &poses,
   intersect_polyhedrons_.resize(N-1);
 
   for (unsigned int i = 0; i < N; i++) {
-    lines_[i] = std::make_shared<LineSegment>(poses[i], poses[i+1], false);
-    lines_[i]->set_virtual_dim(10, h);
+    lines_[i] = std::make_shared<LineSegment>(poses[i], poses[i+1]);
+    if(virtual_.norm() > 0)
+      lines_[i]->set_virtual_dim(virtual_(0), virtual_(1), virtual_(2));
     lines_[i]->set_obstacles(obs_);
-    lines_[i]->dilate(d);
+    lines_[i]->dilate(robot_radius_);
 
     ellipsoids_[i] = lines_[i]->ellipsoid();
     polyhedrons_[i] = lines_[i]->polyhedron();
@@ -101,7 +85,8 @@ bool EllipseDecomp::decomp(const vec_Vec3f &poses,
 
   for (unsigned int i = 0; i < poses.size() - 2; i++){
     intersect_polyhedrons_[i] = polytope_intersection(polyhedrons_[i], polyhedrons_[i+1]);
-    add_bounding(intersect_polyhedrons_[i]);
+    if(has_bounding_box_)
+      add_bounding(intersect_polyhedrons_[i]);
   }
 
   dilate_path_ = poses;
@@ -109,11 +94,13 @@ bool EllipseDecomp::decomp(const vec_Vec3f &poses,
   center_path_.push_back(poses.back());
   center_path_.insert(center_path_.begin(), poses.front());
 
-  for(unsigned int i = 0; i < lines_.size(); i++){
-    //lines_[i]->shrink(dilate_path_[i], dilate_path_[i+1], d);
-    lines_[i]->shrink(center_path_[i], center_path_[i+1], ds * d);
+  for(unsigned int i = 0; i < lines_.size(); i++) {
+    if(shrink_distance_ > 0)
+      lines_[i]->shrink(dilate_path_[i], dilate_path_[i+1], shrink_distance_);
+    //lines_[i]->shrink(center_path_[i], center_path_[i+1], ds * d);
     polyhedrons_[i] = lines_[i]->polyhedron();
-    add_bounding(polyhedrons_[i]);
+    if(has_bounding_box_)
+      add_bounding(polyhedrons_[i]);
   }
   return true;
 }
@@ -127,12 +114,6 @@ vec_Vec3f EllipseDecomp::cal_centers(const Polyhedra &intersect_vs) {
     Vec3f pt = dilate_path_[i+1];
     if(!inside_polytope(pt, vs))
       continue;
-
-    Vec3f dir_v(0, 0, 1);
-    Vec3f pp3 = pt + dir_v * 0.2;
-    Vec3f pp4 = pt - dir_v * 0.2;
-    vs.push_back(Face(pp3, dir_v));
-    vs.push_back(Face(pp4, -dir_v));
 
     vec_E<vec_Vec3f> bs = cal_extreme_points(vs);
     Vec3f avg = Vec3f::Zero();

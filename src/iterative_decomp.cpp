@@ -1,32 +1,34 @@
 #include <decomp_util/iterative_decomp.h>
 
+IterativeDecomp::IterativeDecomp(bool verbose) {
+  has_bounding_box_ = false;
+  verbose_ = verbose;
+  if(verbose_)
+    printf(ANSI_COLOR_GREEN "ITERATIVE DECOMP VERBOSE ON! \n" ANSI_COLOR_RESET);
+}
+
 IterativeDecomp::IterativeDecomp(const Vec3f &origin, const Vec3f &dim, bool verbose){
+  has_bounding_box_ = true;
   min_ = origin;
   max_ = origin + dim;
   verbose_ = verbose;
   if(verbose_){
     printf(ANSI_COLOR_GREEN "ITERATIVE DECOMP VERBOSE ON! \n" ANSI_COLOR_RESET);
     printf("Min: [%f, %f, %f]\n", min_(0), min_(1), min_(2));
-    printf("Max: [%f, %f, %f]\n" ANSI_COLOR_RESET, max_(0), max_(1), max_(2));
+    printf("Max: [%f, %f, %f]\n", max_(0), max_(1), max_(2));
   }
 }
 
-bool IterativeDecomp::decomp_iter(const vec_Vec3f& poses,
-                                  decimal_t d,
-                                  decimal_t ds,
-                                  decimal_t h,
-                                  int iter_num, bool fixed){
+bool IterativeDecomp::decomp_iter(const vec_Vec3f& poses, int iter_num){
   vec_Vec3f path = poses;
   int cnt = 0;
   for(int i = 0; i < iter_num; i++){
-    if(!decomp(path, d, ds, h))
+    if(!decomp(path))
       return false;
     cnt ++;
     vec_Vec3f new_path;
-    if(!fixed)
-      new_path = simplify(center_path_);
-    else
-      new_path = simplify(path);
+    new_path = simplify(center_path_);
+    //new_path = simplify(path);
     bool converge = false;
     if(new_path.size() == path.size()){
       converge = true;
