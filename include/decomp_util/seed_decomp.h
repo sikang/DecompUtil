@@ -1,28 +1,30 @@
 /**
- * @file line_segment.h
- * @brief LineSegment Class
+ * @file seed_decomp.h
+ * @brief SeedDecomp Class
  */
-#ifndef LINE_SEGMENT_H
-#define LINE_SEGMENT_H
+#ifndef SEED_DECOMP_H
+#define SEED_DECOMP_H
 
 #include <decomp_util/data_type.h>
 #include <decomp_util/geometry_utils.h>
 
+
 /**
- * @brief Line Segment Class
+ * @brief Seed Decomp Class
  *
- * The basic element in EllipseDecomp
+ * Dilate around the given point
  */
-class LineSegment {
+class SeedDecomp{
   public:
     ///Simple constructor
-    LineSegment();
+    SeedDecomp() {};
     /**
      * @brief Basic constructor
      * @param p1 One end of the line seg
      * @param p2 The other end of the line seg
      */
-    LineSegment(const Vec3f &p1, const Vec3f &p2);
+    SeedDecomp(const Vec3f &p);
+
     /**
      * @brief Adding virtual bounding box around line seg
      * @param x Distance in x axis
@@ -40,11 +42,6 @@ class LineSegment {
     Ellipsoid ellipsoid() const { return ellipsoid_; }
     ///Retrieve polyhedron
     Polyhedron polyhedron() const { return polyhedron_; }
-    ///Calculate the volume of polyhedron
-    decimal_t polyhedron_volume();
-    ///Calculate the volume of ellipsoid
-    decimal_t ellipsoid_volume();
-
     /**
      * @brief Infalte the line segment
      * @param radius Robot radius
@@ -52,38 +49,20 @@ class LineSegment {
     void dilate(decimal_t radius);
     /**
      * @brief Shrink the polyhedron 
-     * @param p1 One end of the line seg
-     * @param p2 The other end of the line seg
      * @param thr Shrinking distance
      */
-    void shrink(const Vec3f& p1, const Vec3f& p2, decimal_t thr);
-    /**
-     * @brief Adjust the norm of half plane to prevent cutting off the line seg whhile shrinking
-     *
-     * Details are introduced in the related paper
-     */
-    void adjust(Face& v);
-
-  protected:
+    void shrink(decimal_t thr);
+ 
+  private:
     void add_virtual_wall(Polyhedron &Vs);
-    void cal_spheroid(const Vec3f& pw, const Quatf& qi, const Vec3f& center,
-        Vec3f& axes, Quatf& qf);
 
-    Ellipsoid find_ellipsoid(const Vec3f &p1, const Vec3f &p2);
-    Polyhedron find_polyhedron(const Ellipsoid &E);
-
-    // Input:
-    Vec3f p1_;
-    Vec3f p2_;
     vec_Vec3f obs_;
-
-    // Output:
+    Vec3f p_;
     Ellipsoid ellipsoid_;
     Polyhedron polyhedron_;
-
-    decimal_t robot_radius_ = 0;
     decimal_t virtual_x_ = 5;
     decimal_t virtual_y_ = 5;
     decimal_t virtual_z_ = 2;
 };
-#endif
+
+#endif 

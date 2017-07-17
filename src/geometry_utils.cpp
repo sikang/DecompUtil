@@ -10,9 +10,9 @@ Quatf vec_to_quaternion(const Vec3f &v) {
 }
 
 //**** Calculate eigen values
-Vec3f eigen_value(const Mat3f& A){
-	Eigen::SelfAdjointEigenSolver<Mat3f> es(A);
-	return es.eigenvalues();
+Vec3f eigen_value(const Mat3f& A) {
+  Eigen::SelfAdjointEigenSolver<Mat3f> es(A);
+  return es.eigenvalues();
 }
 
 //**** Sort poits in an order
@@ -36,6 +36,38 @@ vec_Vec3f sort_pts(const vec_Vec3f &pts) {
     b.push_back(it.second);
   return b;
 }
+
+
+Face closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O) {
+  decimal_t dist = std::numeric_limits<decimal_t>::max();
+  Vec3f vt, best_v;
+  best_v = E.second;
+  for (const auto &it : O) {
+    vt = E.first.inverse() * (it - E.second);
+    if (vt.norm() < dist) {
+      dist = vt.norm();
+      best_v = it;
+    }
+  }
+
+  Vec3f a = E.first.inverse() * E.first.inverse().transpose() *
+    (best_v - E.second);
+  a = a.normalized();
+  return Face(best_v, a);
+}
+
+
+
+//Calculate points inside polyhedron
+vec_Vec3f ps_in_polytope(const Polyhedron &Vs, const vec_Vec3f &O) {
+  vec_Vec3f new_O;
+  for (const auto &it : O) {
+    if (inside_polytope(it, Vs))
+      new_O.push_back(it);
+  }
+  return new_O;
+}
+
 
 //**** Determine if a point p is inside polytope
 bool inside_polytope(const Vec3f &p,

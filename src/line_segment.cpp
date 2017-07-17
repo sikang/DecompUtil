@@ -16,35 +16,6 @@ void LineSegment::set_obstacles(const vec_Vec3f& obs) {
   obs_ = ps_in_polytope(vs, obs);
 }
 
-
-vec_Vec3f LineSegment::ps_in_polytope(const Polyhedron &Vs, const vec_Vec3f &O) {
-  vec_Vec3f new_O;
-  for (const auto &it : O) {
-    if (inside_polytope(it, Vs))
-      new_O.push_back(it);
-  }
-  return new_O;
-}
-
-
-Face LineSegment::closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O) {
-  decimal_t dist = std::numeric_limits<decimal_t>::max();
-  Vec3f vt, best_v;
-  best_v = E.second;
-  for (const auto &it : O) {
-    vt = E.first.inverse() * (it - E.second);
-    if (vt.norm() < dist) {
-      dist = vt.norm();
-      best_v = it;
-    }
-  }
-
-  Vec3f a = E.first.inverse() * E.first.inverse().transpose() *
-    (best_v - E.second);
-  a = a.normalized();
-  return Face(best_v, a);
-}
-
 Ellipsoid LineSegment::find_ellipsoid(const Vec3f& p1, const Vec3f& p2){
   const decimal_t f = (p1 - p2).norm() / 2;
   Mat3f C = f * Mat3f::Identity();

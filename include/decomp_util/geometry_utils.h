@@ -1,5 +1,9 @@
-#ifndef GEOMETRIC_UTILS_H
-#define GEOMETRIC_UTILS_H
+/**
+ * @file geometric_utils.h
+ * @brief basic geometry utils
+ */
+#ifndef DECOMP_GEOMETRIC_UTILS_H
+#define DECOMP_GEOMETRIC_UTILS_H
 
 #include <decomp_util/data_utils.h>
 #include <iostream>
@@ -27,6 +31,10 @@ bool inside_polytope(const Vec3f &p,
 bool inside_polytope(const Vec3f &p,
                      const LinearConstraint3f& C);
 
+///Find the closest point, return the half-plane
+Face closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O);
+///Calculate points inside the given polyhedron
+vec_Vec3f ps_in_polytope(const Polyhedron &Vs, const vec_Vec3f &O);
 //**** Find normals
 //*** used for visualization
 vec_E<pair_Vec3f> cal_normals(const Polyhedron &vts);

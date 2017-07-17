@@ -14,7 +14,7 @@ IF(USE_ROS)
     DEPENDS Eigen3
     CATKIN_DEPENDS
     INCLUDE_DIRS include
-    LIBRARIES ellipse_decomp ellipsoid_utils iterative_decomp geometry_utils
+    LIBRARIES ellipse_decomp ellipsoid_utils iterative_decomp geometry_utils seed_decomp
     )
   INCLUDE_DIRECTORIES(${catkin_INCLUDE_DIRS})
   LIST(APPEND LINK_LIBS ${catkin_LIBRARIES})
@@ -25,40 +25,44 @@ include_directories(./include ${EIGEN3_INCLUDE_DIRS})
 
 add_library(geometry_utils src/geometry_utils.cpp)
 
+add_library(seed_decomp src/seed_decomp.cpp
+  src/geometry_utils.cpp)
+
 add_library(ellipse_decomp
-	src/line_segment.cpp
-	src/ellipse_decomp.cpp)
-target_link_libraries(ellipse_decomp geometry_utils)
+  src/geometry_utils.cpp
+  src/line_segment.cpp
+  src/ellipse_decomp.cpp)
+
 add_library(iterative_decomp src/iterative_decomp.cpp)
-target_link_libraries(iterative_decomp ellipse_decomp geometry_utils)
+target_link_libraries(iterative_decomp ellipse_decomp)
 
 add_library(ellipsoid_utils src/ellipsoid_utils.cpp)
 target_link_libraries(ellipsoid_utils geometry_utils)
 
 IF(USE_ROS)
-	install(TARGETS
-	    ellipse_decomp
-	    ellipsoid_utils 
-	    iterative_decomp 
-	    geometry_utils
-	  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-	  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-	  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-	install(
-      DIRECTORY include/
-	    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-	)
+  install(TARGETS
+    ellipse_decomp
+    ellipsoid_utils 
+    iterative_decomp 
+    geometry_utils
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  install(
+    DIRECTORY include/
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    )
 ELSE()
-	install(TARGETS
-	    ellipse_decomp
-	    ellipsoid_utils 
-	    iterative_decomp 
-	    geometry_utils
-	  ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-	  LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-	  RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-	install(
-      DIRECTORY include/
-	    DESTINATION ${CMAKE_INSTALL_PREFIX}/include
-	)
+  install(TARGETS
+    ellipse_decomp
+    ellipsoid_utils 
+    iterative_decomp 
+    geometry_utils
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+  install(
+    DIRECTORY include/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+    )
 ENDIF()
