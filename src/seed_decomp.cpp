@@ -25,6 +25,7 @@ void SeedDecomp::dilate(decimal_t radius){
 
   E.first = r * Mat3f::Identity();
   ellipsoid_ = E;
+  radius_ = r;
 
   //**** find half-space
   Polyhedron Vs;

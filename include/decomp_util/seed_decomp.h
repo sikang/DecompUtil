@@ -36,6 +36,8 @@ class SeedDecomp{
     void set_virtual_dim(decimal_t x, decimal_t y, decimal_t z);
     ///Import obstacle points
     void set_obstacles(const vec_Vec3f &obs);
+    ///Retrieve the radius of sphere
+    decimal_t radius() const { return radius_; }
     ///Retieve obstacel points
     vec_Vec3f obs() const { return obs_; }
     ///Retrieve ellipsoid
@@ -56,6 +58,7 @@ class SeedDecomp{
   private:
     void add_virtual_wall(Polyhedron &Vs);
 
+    decimal_t radius_;
     vec_Vec3f obs_;
     Vec3f p_;
     Ellipsoid ellipsoid_;
