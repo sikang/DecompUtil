@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MRSL DecompUtil Library
-   &#160;<span id="projectnumber">0.0</span>
+   &#160;<span id="projectnumber">0.1</span>
    </div>
    <div id="projectbrief">An implementaion of convex decomposition over point cloud</div>
   </td>
@@ -90,23 +90,15 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#abb2de92ede069bc3a87b7bb7aa7c93ec">EllipseDecomp</a> (bool verbose=false)</td></tr>
 <tr class="memdesc:abb2de92ede069bc3a87b7bb7aa7c93ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple constructor. <br /></td></tr>
 <tr class="separator:abb2de92ede069bc3a87b7bb7aa7c93ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a765a4e3c193466121993176fde060f2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a765a4e3c193466121993176fde060f2c">EllipseDecomp</a> (const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;origin, const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;dim, bool verbose=false)</td></tr>
+<tr class="memitem:a765a4e3c193466121993176fde060f2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a765a4e3c193466121993176fde060f2c">EllipseDecomp</a> (const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;origin, const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;dim, bool verbose=false)</td></tr>
 <tr class="memdesc:a765a4e3c193466121993176fde060f2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#a765a4e3c193466121993176fde060f2c">More...</a><br /></td></tr>
 <tr class="separator:a765a4e3c193466121993176fde060f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d5ed0ef1a21aad091f19e916cd2f017"><td class="memItemLeft" align="right" valign="top"><a id="a2d5ed0ef1a21aad091f19e916cd2f017"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a2d5ed0ef1a21aad091f19e916cd2f017">set_obstacles</a> (const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;obs)</td></tr>
 <tr class="memdesc:a2d5ed0ef1a21aad091f19e916cd2f017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set obstacle points. <br /></td></tr>
 <tr class="separator:a2d5ed0ef1a21aad091f19e916cd2f017"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac055177607d11a5aab2a4a4c959de262"><td class="memItemLeft" align="right" valign="top"><a id="ac055177607d11a5aab2a4a4c959de262"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#ac055177607d11a5aab2a4a4c959de262">set_radius</a> (<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> r)</td></tr>
-<tr class="memdesc:ac055177607d11a5aab2a4a4c959de262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set robot radius. <br /></td></tr>
-<tr class="separator:ac055177607d11a5aab2a4a4c959de262"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a880bed756200ac9ad964226cec47e859"><td class="memItemLeft" align="right" valign="top"><a id="a880bed756200ac9ad964226cec47e859"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a880bed756200ac9ad964226cec47e859">set_shrink_distance</a> (<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> r)</td></tr>
-<tr class="memdesc:a880bed756200ac9ad964226cec47e859"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set shrink distance (usually greater than robot radius) <br /></td></tr>
-<tr class="separator:a880bed756200ac9ad964226cec47e859"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefe7e03c72846c5a4033d39833954462"><td class="memItemLeft" align="right" valign="top"><a id="aefe7e03c72846c5a4033d39833954462"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#aefe7e03c72846c5a4033d39833954462">set_virtual_box</a> (const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;v)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#aefe7e03c72846c5a4033d39833954462">set_virtual_box</a> (const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;v)</td></tr>
 <tr class="memdesc:aefe7e03c72846c5a4033d39833954462"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set dimension of virtual bounding box. <br /></td></tr>
 <tr class="separator:aefe7e03c72846c5a4033d39833954462"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ae44a8a5b79643d1877901a6990819d"><td class="memItemLeft" align="right" valign="top"><a id="a0ae44a8a5b79643d1877901a6990819d"></a>
@@ -118,11 +110,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:ab5c4bcbad7922b8dc4e24351b23d24e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the new path in the center of the Safe Flight Corridor. <br /></td></tr>
 <tr class="separator:ab5c4bcbad7922b8dc4e24351b23d24e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fbf95a6853a2282af722126bb77d84a"><td class="memItemLeft" align="right" valign="top"><a id="a8fbf95a6853a2282af722126bb77d84a"></a>
-Polyhedra&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a8fbf95a6853a2282af722126bb77d84a">get_polyhedra</a> () const</td></tr>
+<a class="el" href="data__type_8h.html#abd1e04d95f3b6835a5b1ee09c7477a17">Polyhedra</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a8fbf95a6853a2282af722126bb77d84a">get_polyhedra</a> () const</td></tr>
 <tr class="memdesc:a8fbf95a6853a2282af722126bb77d84a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Safe Flight Corridor. <br /></td></tr>
 <tr class="separator:a8fbf95a6853a2282af722126bb77d84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f3d66dc729d95ea65906758a6f079e7"><td class="memItemLeft" align="right" valign="top"><a id="a3f3d66dc729d95ea65906758a6f079e7"></a>
-Polyhedra&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a3f3d66dc729d95ea65906758a6f079e7">get_intersect_polyhedra</a> () const</td></tr>
+<a class="el" href="data__type_8h.html#abd1e04d95f3b6835a5b1ee09c7477a17">Polyhedra</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a3f3d66dc729d95ea65906758a6f079e7">get_intersect_polyhedra</a> () const</td></tr>
 <tr class="memdesc:a3f3d66dc729d95ea65906758a6f079e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the intersected part of Safe Flight Corridor. <br /></td></tr>
 <tr class="separator:a3f3d66dc729d95ea65906758a6f079e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d60e539d9374c71a55899084f49f483"><td class="memItemLeft" align="right" valign="top"><a id="a8d60e539d9374c71a55899084f49f483"></a>
@@ -145,9 +137,12 @@ Polyhedra&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a2069804f425582913aaaca6836123651">clean</a> ()</td></tr>
 <tr class="memdesc:a2069804f425582913aaaca6836123651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean both dilation and obstacles, reset the whole class. <br /></td></tr>
 <tr class="separator:a2069804f425582913aaaca6836123651"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6f8006fa012957fefbff9fc6cc27f1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#af6f8006fa012957fefbff9fc6cc27f1d">decomp</a> (const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;poses)</td></tr>
-<tr class="memdesc:af6f8006fa012957fefbff9fc6cc27f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decomposition thread.  <a href="#af6f8006fa012957fefbff9fc6cc27f1d">More...</a><br /></td></tr>
-<tr class="separator:af6f8006fa012957fefbff9fc6cc27f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a18f026cde492cc1a2ea257ffac7842"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a0a18f026cde492cc1a2ea257ffac7842">decomp</a> (const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;poses, double offset_x=0)</td></tr>
+<tr class="memdesc:a0a18f026cde492cc1a2ea257ffac7842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decomposition thread.  <a href="#a0a18f026cde492cc1a2ea257ffac7842">More...</a><br /></td></tr>
+<tr class="separator:a0a18f026cde492cc1a2ea257ffac7842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01c1890488ee0f4ddfef9cf5861866f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEllipseDecomp.html#a01c1890488ee0f4ddfef9cf5861866f9">shrink</a> (const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;path, double shrink_distance)</td></tr>
+<tr class="memdesc:a01c1890488ee0f4ddfef9cf5861866f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shrink the safe flight corridor.  <a href="#a01c1890488ee0f4ddfef9cf5861866f9">More...</a><br /></td></tr>
+<tr class="separator:a01c1890488ee0f4ddfef9cf5861866f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -155,10 +150,10 @@ Protected Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>clear</b> ()</td></tr>
 <tr class="separator:a8d9eb398538615978aea89728ce20e76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59953edeae371c007f2e3baf829362de"><td class="memItemLeft" align="right" valign="top"><a id="a59953edeae371c007f2e3baf829362de"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>add_bounding</b> (Polyhedron &amp;Vs)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_bounding</b> (<a class="el" href="data__type_8h.html#ad818c6b3f00ecc726b53a609afe3c185">Polyhedron</a> &amp;Vs)</td></tr>
 <tr class="separator:a59953edeae371c007f2e3baf829362de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93379fb14a97800adfb1ad379fe0250d"><td class="memItemLeft" align="right" valign="top"><a id="a93379fb14a97800adfb1ad379fe0250d"></a>
-<a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cal_centers</b> (const Polyhedra &amp;Vs)</td></tr>
+<a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cal_centers</b> (const <a class="el" href="data__type_8h.html#abd1e04d95f3b6835a5b1ee09c7477a17">Polyhedra</a> &amp;Vs)</td></tr>
 <tr class="separator:a93379fb14a97800adfb1ad379fe0250d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -176,19 +171,19 @@ Protected Attributes</h2></td></tr>
 <a class="el" href="data__type_8h.html#a47ddb28a89d8b9f6aaa729f91e61dbec">vec_Ellipsoid</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ellipsoids_</b></td></tr>
 <tr class="separator:afb131195eaebf864729d7294c5af1917"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f38bce765ce71d3ecf1e8af8344c658"><td class="memItemLeft" align="right" valign="top"><a id="a9f38bce765ce71d3ecf1e8af8344c658"></a>
-Polyhedra&#160;</td><td class="memItemRight" valign="bottom"><b>polyhedrons_</b></td></tr>
+<a class="el" href="data__type_8h.html#abd1e04d95f3b6835a5b1ee09c7477a17">Polyhedra</a>&#160;</td><td class="memItemRight" valign="bottom"><b>polyhedrons_</b></td></tr>
 <tr class="separator:a9f38bce765ce71d3ecf1e8af8344c658"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab67282585453a0467c9c18f19b770afe"><td class="memItemLeft" align="right" valign="top"><a id="ab67282585453a0467c9c18f19b770afe"></a>
-Polyhedra&#160;</td><td class="memItemRight" valign="bottom"><b>intersect_polyhedrons_</b></td></tr>
+<a class="el" href="data__type_8h.html#abd1e04d95f3b6835a5b1ee09c7477a17">Polyhedra</a>&#160;</td><td class="memItemRight" valign="bottom"><b>intersect_polyhedrons_</b></td></tr>
 <tr class="separator:ab67282585453a0467c9c18f19b770afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a991f2969853450ad22697e02716f0d0b"><td class="memItemLeft" align="right" valign="top"><a id="a991f2969853450ad22697e02716f0d0b"></a>
 std::vector&lt; std::shared_ptr&lt; <a class="el" href="classLineSegment.html">LineSegment</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>lines_</b></td></tr>
 <tr class="separator:a991f2969853450ad22697e02716f0d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd0a1d797e5b4bb52f42d223d97a9940"><td class="memItemLeft" align="right" valign="top"><a id="acd0a1d797e5b4bb52f42d223d97a9940"></a>
-<a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>min_</b></td></tr>
+<a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>min_</b></td></tr>
 <tr class="separator:acd0a1d797e5b4bb52f42d223d97a9940"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33fc29732614d4bff99a1c2815f763ae"><td class="memItemLeft" align="right" valign="top"><a id="a33fc29732614d4bff99a1c2815f763ae"></a>
-<a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>max_</b></td></tr>
+<a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>max_</b></td></tr>
 <tr class="separator:a33fc29732614d4bff99a1c2815f763ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa15efd5ce11fd2a32b98b302dad58a9a"><td class="memItemLeft" align="right" valign="top"><a id="aa15efd5ce11fd2a32b98b302dad58a9a"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_bounding_box_</b> = false</td></tr>
@@ -197,14 +192,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_bounding_box_</b>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false</td></tr>
 <tr class="separator:ad3a0e298906e1803aa4cad12ccc900f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12d668397c055c3e8cc44f64e8a6e60e"><td class="memItemLeft" align="right" valign="top"><a id="a12d668397c055c3e8cc44f64e8a6e60e"></a>
-<a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>virtual_</b> = <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a>(0, 0, 0)</td></tr>
+<a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>virtual_</b> = <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a>(0, 0, 0)</td></tr>
 <tr class="separator:a12d668397c055c3e8cc44f64e8a6e60e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6c65ae33fd473efb6185f487e01cb17"><td class="memItemLeft" align="right" valign="top"><a id="ae6c65ae33fd473efb6185f487e01cb17"></a>
-<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>robot_radius_</b> = 0</td></tr>
-<tr class="separator:ae6c65ae33fd473efb6185f487e01cb17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabf94ee9d164829749d5ea79a5456e32"><td class="memItemLeft" align="right" valign="top"><a id="aabf94ee9d164829749d5ea79a5456e32"></a>
-<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>shrink_distance_</b> = 0</td></tr>
-<tr class="separator:aabf94ee9d164829749d5ea79a5456e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classEllipseDecomp.html" title="EllipseDecomp Class. ">EllipseDecomp</a> Class. </p>
@@ -219,13 +208,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false<
         <tr>
           <td class="memname">EllipseDecomp::EllipseDecomp </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;&#160;</td>
           <td class="paramname"><em>origin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;&#160;</td>
           <td class="paramname"><em>dim</em>, </td>
         </tr>
         <tr>
@@ -254,8 +243,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false<
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af6f8006fa012957fefbff9fc6cc27f1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6f8006fa012957fefbff9fc6cc27f1d">&#9670;&nbsp;</a></span>decomp()</h2>
+<a id="a0a18f026cde492cc1a2ea257ffac7842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a18f026cde492cc1a2ea257ffac7842">&#9670;&nbsp;</a></span>decomp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -264,8 +253,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false<
           <td class="memname">bool EllipseDecomp::decomp </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;&#160;</td>
-          <td class="paramname"><em>poses</em></td><td>)</td>
+          <td class="paramname"><em>poses</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>offset_x</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -274,6 +273,44 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>verbose_</b> = false<
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">poses</td><td>The path to dilate </td></tr>
+    <tr><td class="paramname">offset_x</td><td>offset added to the long semi-axis, default is 0 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a01c1890488ee0f4ddfef9cf5861866f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01c1890488ee0f4ddfef9cf5861866f9">&#9670;&nbsp;</a></span>shrink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EllipseDecomp::shrink </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>shrink_distance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shrink the safe flight corridor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>path that used to shirnk </td></tr>
+    <tr><td class="paramname">shrink_distance</td><td>shrinking distance, should be positive </td></tr>
   </table>
   </dd>
 </dl>

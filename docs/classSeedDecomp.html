@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MRSL DecompUtil Library
-   &#160;<span id="projectnumber">0.0</span>
+   &#160;<span id="projectnumber">0.1</span>
    </div>
    <div id="projectbrief">An implementaion of convex decomposition over point cloud</div>
   </td>
@@ -81,7 +81,7 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#a066b04b47a92c9aef0f28b549ffb2e7c">SeedDecomp</a> ()</td></tr>
 <tr class="memdesc:a066b04b47a92c9aef0f28b549ffb2e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple constructor. <br /></td></tr>
 <tr class="separator:a066b04b47a92c9aef0f28b549ffb2e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4e633d19f1834131140d0fa01247994"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#aa4e633d19f1834131140d0fa01247994">SeedDecomp</a> (const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;p)</td></tr>
+<tr class="memitem:aa4e633d19f1834131140d0fa01247994"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#aa4e633d19f1834131140d0fa01247994">SeedDecomp</a> (const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;p)</td></tr>
 <tr class="memdesc:aa4e633d19f1834131140d0fa01247994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic constructor.  <a href="#aa4e633d19f1834131140d0fa01247994">More...</a><br /></td></tr>
 <tr class="separator:aa4e633d19f1834131140d0fa01247994"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a019fba936982859b115271b37a6b46af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#a019fba936982859b115271b37a6b46af">set_virtual_dim</a> (<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> x, <a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> y, <a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> z)</td></tr>
@@ -91,6 +91,10 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#a38cc7d1e2952a30a62d95a99efe27f21">set_obstacles</a> (const <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a> &amp;<a class="el" href="classSeedDecomp.html#adf60df003da7b49f6ca6ecd31e245e59">obs</a>)</td></tr>
 <tr class="memdesc:a38cc7d1e2952a30a62d95a99efe27f21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Import obstacle points. <br /></td></tr>
 <tr class="separator:a38cc7d1e2952a30a62d95a99efe27f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61feca60d05b86f3bfef49b2df70f08f"><td class="memItemLeft" align="right" valign="top"><a id="a61feca60d05b86f3bfef49b2df70f08f"></a>
+<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#a61feca60d05b86f3bfef49b2df70f08f">radius</a> () const</td></tr>
+<tr class="memdesc:a61feca60d05b86f3bfef49b2df70f08f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the radius of sphere. <br /></td></tr>
+<tr class="separator:a61feca60d05b86f3bfef49b2df70f08f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf60df003da7b49f6ca6ecd31e245e59"><td class="memItemLeft" align="right" valign="top"><a id="adf60df003da7b49f6ca6ecd31e245e59"></a>
 <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#adf60df003da7b49f6ca6ecd31e245e59">obs</a> () const</td></tr>
 <tr class="memdesc:adf60df003da7b49f6ca6ecd31e245e59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retieve obstacel points. <br /></td></tr>
@@ -100,12 +104,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a7afd561119d396662ce55e25b4d396a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve ellipsoid. <br /></td></tr>
 <tr class="separator:a7afd561119d396662ce55e25b4d396a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abaccb062728d30ac3c8373c3b9cb58f8"><td class="memItemLeft" align="right" valign="top"><a id="abaccb062728d30ac3c8373c3b9cb58f8"></a>
-Polyhedron&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#abaccb062728d30ac3c8373c3b9cb58f8">polyhedron</a> () const</td></tr>
+<a class="el" href="data__type_8h.html#ad818c6b3f00ecc726b53a609afe3c185">Polyhedron</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#abaccb062728d30ac3c8373c3b9cb58f8">polyhedron</a> () const</td></tr>
 <tr class="memdesc:abaccb062728d30ac3c8373c3b9cb58f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve polyhedron. <br /></td></tr>
 <tr class="separator:abaccb062728d30ac3c8373c3b9cb58f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9fe29819c5cc1cf60d45f63399a21fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#ae9fe29819c5cc1cf60d45f63399a21fc">dilate</a> (<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> radius)</td></tr>
+<tr class="memitem:ae9fe29819c5cc1cf60d45f63399a21fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#ae9fe29819c5cc1cf60d45f63399a21fc">dilate</a> (<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> <a class="el" href="classSeedDecomp.html#a61feca60d05b86f3bfef49b2df70f08f">radius</a>)</td></tr>
 <tr class="memdesc:ae9fe29819c5cc1cf60d45f63399a21fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Infalte the line segment.  <a href="#ae9fe29819c5cc1cf60d45f63399a21fc">More...</a><br /></td></tr>
 <tr class="separator:ae9fe29819c5cc1cf60d45f63399a21fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ea337ba81f9d46cc6e5dc6a1f40a00a"><td class="memItemLeft" align="right" valign="top"><a id="a2ea337ba81f9d46cc6e5dc6a1f40a00a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>dilate</b> (const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;axes, const <a class="el" href="data__type_8h.html#a231e0258efbae239a7cdfbd52442f06e">Mat3f</a> &amp;R)</td></tr>
+<tr class="separator:a2ea337ba81f9d46cc6e5dc6a1f40a00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03dbc106ded47a7690dcf774679c0616"><td class="memItemLeft" align="right" valign="top"><a id="a03dbc106ded47a7690dcf774679c0616"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>dilate</b> (const <a class="el" href="data__type_8h.html#ab79f3b8f2deea3f9f977cdc99cfc4a76">Ellipsoid</a> &amp;E)</td></tr>
+<tr class="separator:a03dbc106ded47a7690dcf774679c0616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d7d2cbe1595ea94b43d09b35124df04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSeedDecomp.html#a1d7d2cbe1595ea94b43d09b35124df04">shrink</a> (<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a> thr)</td></tr>
 <tr class="memdesc:a1d7d2cbe1595ea94b43d09b35124df04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shrink the polyhedron.  <a href="#a1d7d2cbe1595ea94b43d09b35124df04">More...</a><br /></td></tr>
 <tr class="separator:a1d7d2cbe1595ea94b43d09b35124df04"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,22 +123,25 @@ Polyhedron&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a988e0ad68b7111823cbfa87797f7aeae"><td class="memItemLeft" align="right" valign="top"><a id="a988e0ad68b7111823cbfa87797f7aeae"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>add_virtual_wall</b> (Polyhedron &amp;Vs)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_virtual_wall</b> (<a class="el" href="data__type_8h.html#ad818c6b3f00ecc726b53a609afe3c185">Polyhedron</a> &amp;Vs)</td></tr>
 <tr class="separator:a988e0ad68b7111823cbfa87797f7aeae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:a299750da01205ebc26e7bec35c2b88bd"><td class="memItemLeft" align="right" valign="top"><a id="a299750da01205ebc26e7bec35c2b88bd"></a>
+<a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>radius_</b> = 1.0</td></tr>
+<tr class="separator:a299750da01205ebc26e7bec35c2b88bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91d708ce627a0934ed3be03f8af12bfa"><td class="memItemLeft" align="right" valign="top"><a id="a91d708ce627a0934ed3be03f8af12bfa"></a>
 <a class="el" href="data__type_8h.html#a62c46ed3e3ab6773b30439f9be38290b">vec_Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>obs_</b></td></tr>
 <tr class="separator:a91d708ce627a0934ed3be03f8af12bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91ed866d304dfc7b6f813ca72a697216"><td class="memItemLeft" align="right" valign="top"><a id="a91ed866d304dfc7b6f813ca72a697216"></a>
-<a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>p_</b></td></tr>
+<a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a>&#160;</td><td class="memItemRight" valign="bottom"><b>p_</b></td></tr>
 <tr class="separator:a91ed866d304dfc7b6f813ca72a697216"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab020fdf74bbb54b504e1e2dfe91946b"><td class="memItemLeft" align="right" valign="top"><a id="aab020fdf74bbb54b504e1e2dfe91946b"></a>
 <a class="el" href="data__type_8h.html#ab79f3b8f2deea3f9f977cdc99cfc4a76">Ellipsoid</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ellipsoid_</b></td></tr>
 <tr class="separator:aab020fdf74bbb54b504e1e2dfe91946b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08de3b016c7213ea746dba338be2459a"><td class="memItemLeft" align="right" valign="top"><a id="a08de3b016c7213ea746dba338be2459a"></a>
-Polyhedron&#160;</td><td class="memItemRight" valign="bottom"><b>polyhedron_</b></td></tr>
+<a class="el" href="data__type_8h.html#ad818c6b3f00ecc726b53a609afe3c185">Polyhedron</a>&#160;</td><td class="memItemRight" valign="bottom"><b>polyhedron_</b></td></tr>
 <tr class="separator:a08de3b016c7213ea746dba338be2459a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47236d43440209ebdc6c02691e1ee34f"><td class="memItemLeft" align="right" valign="top"><a id="a47236d43440209ebdc6c02691e1ee34f"></a>
 <a class="el" href="data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266">decimal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>virtual_x_</b> = 5</td></tr>
@@ -153,7 +166,7 @@ Polyhedron&#160;</td><td class="memItemRight" valign="bottom"><b>polyhedron_</b>
         <tr>
           <td class="memname">SeedDecomp::SeedDecomp </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="data__type_8h.html#a6a51054135436e5d0a4529dc0054ae0a">Vec3f</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="data__type_8h.html#afd53e073786661e24985c48b4ef92fcb">Vec3f</a> &amp;&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
         </tr>

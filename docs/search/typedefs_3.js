@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['linearconstraint3f',['LinearConstraint3f',['../data__type_8h.html#a26a1629a4de1dd2b6c203d3c330d3820',1,'data_type.h']]]
+  ['ellipsoid',['Ellipsoid',['../data__type_8h.html#ab79f3b8f2deea3f9f977cdc99cfc4a76',1,'data_type.h']]]
 ];

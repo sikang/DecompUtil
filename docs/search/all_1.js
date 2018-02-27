@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['clean',['clean',['../classEllipseDecomp.html#a2069804f425582913aaaca6836123651',1,'EllipseDecomp']]],
-  ['compp',['compP',['../data__utils_8h.html#a494c6b874530e84bdc083ff30a614e36',1,'data_utils.h']]]
+  ['boundvec3f',['BoundVec3f',['../data__type_8h.html#a28ffdc051b6c8f72f78ac10c7cdba640',1,'data_type.h']]]
 ];

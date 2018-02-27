@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['ellipse_5fdecomp_2eh',['ellipse_decomp.h',['../ellipse__decomp_8h.html',1,'']]],
-  ['ellipsedecomp',['EllipseDecomp',['../classEllipseDecomp.html',1,'EllipseDecomp'],['../classEllipseDecomp.html#abb2de92ede069bc3a87b7bb7aa7c93ec',1,'EllipseDecomp::EllipseDecomp(bool verbose=false)'],['../classEllipseDecomp.html#a765a4e3c193466121993176fde060f2c',1,'EllipseDecomp::EllipseDecomp(const Vec3f &amp;origin, const Vec3f &amp;dim, bool verbose=false)']]],
-  ['ellipsoid',['ellipsoid',['../classLineSegment.html#a7653f5dc31873929dae82fc1dbae898e',1,'LineSegment::ellipsoid()'],['../classSeedDecomp.html#a7afd561119d396662ce55e25b4d396a7',1,'SeedDecomp::ellipsoid()'],['../data__type_8h.html#ab79f3b8f2deea3f9f977cdc99cfc4a76',1,'Ellipsoid():&#160;data_type.h']]],
-  ['ellipsoid_5fvolume',['ellipsoid_volume',['../classLineSegment.html#a066fdf4c5f2bf236b6ec2c60dc52b8f3',1,'LineSegment']]]
+  ['data_5ftype_2eh',['data_type.h',['../data__type_8h.html',1,'']]],
+  ['data_5futils_2eh',['data_utils.h',['../data__utils_8h.html',1,'']]],
+  ['decimal_5ft',['decimal_t',['../data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266',1,'data_type.h']]],
+  ['decomp',['decomp',['../classEllipseDecomp.html#a0a18f026cde492cc1a2ea257ffac7842',1,'EllipseDecomp']]],
+  ['decomp_5fiter',['decomp_iter',['../classIterativeDecomp.html#a423352f8912b74869f3e0666b90dfb89',1,'IterativeDecomp']]],
+  ['dilate',['dilate',['../classLineSegment.html#a3215b0e2387333e67ccf5101b4514af0',1,'LineSegment::dilate()'],['../classSeedDecomp.html#ae9fe29819c5cc1cf60d45f63399a21fc',1,'SeedDecomp::dilate()']]]
 ];

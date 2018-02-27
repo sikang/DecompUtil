@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ellipsoid',['Ellipsoid',['../data__type_8h.html#ab79f3b8f2deea3f9f977cdc99cfc4a76',1,'data_type.h']]]
+  ['decimal_5ft',['decimal_t',['../data__type_8h.html#a7c99d9360fc6cac2762b786e2fb52266',1,'data_type.h']]]
 ];
