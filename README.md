@@ -1,18 +1,29 @@
 MRSL Decomputil Library
 ======================
-Fast convex decomposition utils. In the basic pipeline, it implements ellipsoid based regional inflation to model free space from a given path inside a point cloud.
+Fast convex decomposition in point cloud. In the basic pipeline, it implements ellipsoid based regional inflation to model free space from a given path inside a point cloud.
 Detials of the algorithm is proposed in "S. Liu, M. Watterson, K. Mohta, K. Sun, S. Bhattacharya, C.J. Taylor and V. Kumar. Planning Dynamically Feasible Trajectories for Quadrotors using Safe Flight Corridors in 3-D Complex Environments. ICRA 2017".
 
 ## Compilation
-A) Simple cmake
+#### A) Simple cmake
 ```sh
 $ mkdir build && cd build && cmake .. && make
 ```
 
-B) Using CATKIN
+#### B) Using CATKIN (not recognizable by catkin\_make)
 ```sh
 $ cd mv decomp_util ~/catkin_ws/src
-$ cd ~/catkin_ws & catkin_make -DCMAKE_BUILD_TYPE=Release
+$ cd ~/catkin_ws & catkin_make_isolated -DCMAKE_BUILD_TYPE=Release
+```
+
+#### Include in other projects:
+To link this lib properly, add following in the `CMakeLists.txt`
+```
+find_package(decomp_util REQUIRED)
+include_directories(${DECOMP_UTIL_INCLUDE_DIRS})
+...
+add_executable(test_xxx src/test_xxx.cpp)
+target_link_libraries(test_xxx ${DECOMP_UTIL_LIBRARIES})
+
 ```
 
 ## Example
