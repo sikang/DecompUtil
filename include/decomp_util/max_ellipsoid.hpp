@@ -1,7 +1,7 @@
 #ifndef MAX_ELLIPSOID_H
 #define MAX_ELLIPSOID_H
 
-#include <maxdet/maxdet_src.h>
+#include <decomp_util/maxdet/maxdet_src.h>
 
 static inline bool max_ellipsoid(const LinearConstraint3f& C,
 		Ellipsoid& e){
