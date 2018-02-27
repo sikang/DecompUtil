@@ -37,7 +37,6 @@ vec_Vec3f sort_pts(const vec_Vec3f &pts) {
   return b;
 }
 
-
 Face closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O) {
   decimal_t dist = std::numeric_limits<decimal_t>::max();
   Vec3f vt, best_v;
@@ -85,7 +84,7 @@ bool inside_polytope(const Vec3f &p,
   return inside;
 }
 
-//**** Determine if a point p is inside polytop
+//**** Determine if a point p is inside polytope
 bool inside_polytope(const Vec3f &p,
                      const LinearConstraint3f& C){
   VecDf d = C.first * p - C.second;
@@ -371,7 +370,7 @@ vec_Vec3f path_crop(const vec_Vec3f& ps, decimal_t d){
   }
 
 
-  if((path.back() - end).norm() > 1e-1)
+  if((path.back() - end).norm() > 5e-1)
     path.push_back(end);
   return path;
 }

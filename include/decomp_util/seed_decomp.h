@@ -49,6 +49,8 @@ class SeedDecomp{
      * @param radius Robot radius
      */
     void dilate(decimal_t radius);
+    void dilate(const Vec3f& axes, const Mat3f& R);
+    void dilate(const Ellipsoid& E);
     /**
      * @brief Shrink the polyhedron 
      * @param thr Shrinking distance
@@ -58,7 +60,7 @@ class SeedDecomp{
   private:
     void add_virtual_wall(Polyhedron &Vs);
 
-    decimal_t radius_;
+    decimal_t radius_ = 1.0;
     vec_Vec3f obs_;
     Vec3f p_;
     Ellipsoid ellipsoid_;

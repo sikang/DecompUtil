@@ -15,23 +15,35 @@ void SeedDecomp::set_obstacles(const vec_Vec3f& obs) {
 }
 
 void SeedDecomp::dilate(decimal_t radius){
-  decimal_t r = radius;
-  Mat3f C = r * Mat3f::Identity();
+  dilate(Vec3f(radius, radius, radius), Mat3f::Identity());
+}
+
+void SeedDecomp::dilate(const Vec3f& axes, const Mat3f& R){
+  Mat3f C = Mat3f::Identity();
+  C(0, 0) = axes(0);
+  C(1, 1) = axes(1);
+  C(2, 2) = axes(2);
+  C = R * C * R.transpose();
   Ellipsoid E = std::make_pair(C, p_);
+  dilate(E);
+}
+
+void SeedDecomp::dilate(const Ellipsoid& E) {
   if(!obs_.empty()) {
     Face v = closest_obstacle(E, obs_);
-    r = (v.p - p_).norm();
+    decimal_t b = v.p.dot(v.n);
+    radius_ = std::abs(b - v.n.dot(p_)) / std::sqrt((v.n.dot(E.first * E.first.transpose()*v.n)));
+    //printf("radius = %f\n", radius_);
   }
 
-  E.first = r * Mat3f::Identity();
-  ellipsoid_ = E;
-  radius_ = r;
+  ellipsoid_.first = radius_ * E.first;
+  ellipsoid_.second = E.second;
 
   //**** find half-space
   Polyhedron Vs;
   vec_Vec3f O_remain = obs_;
   while (!O_remain.empty()) {
-    Face v = closest_obstacle(E, O_remain);
+    Face v = closest_obstacle(ellipsoid_, O_remain);
     Vs.push_back(v);
     Vec3f a = v.n;
     decimal_t b = v.p.dot(a);
@@ -46,6 +58,8 @@ void SeedDecomp::dilate(decimal_t radius){
   add_virtual_wall(Vs);
   polyhedron_ = Vs;
 }
+
+
 
 void SeedDecomp::shrink(decimal_t thr) {
   for (auto &it : polyhedron_) {
