@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['add_5fvirtual_5fwall',['add_virtual_wall',['../classSeedDecomp.html#a988e0ad68b7111823cbfa87797f7aeae',1,'SeedDecomp']]],
   ['adjust',['adjust',['../classLineSegment.html#a7aeb9ebb69d59eb621e7e7fd5dd8a0a9',1,'LineSegment']]],
   ['aff2f',['Aff2f',['../data__type_8h.html#a3b95b3d43bb8590852e0e74abaff3c6a',1,'data_type.h']]],
   ['aff3f',['Aff3f',['../data__type_8h.html#a99980a710976449f0a9d3d2ae8b8be87',1,'data_type.h']]],
