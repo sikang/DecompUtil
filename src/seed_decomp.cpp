@@ -29,14 +29,15 @@ void SeedDecomp::dilate(const Vec3f& axes, const Mat3f& R){
 }
 
 void SeedDecomp::dilate(const Ellipsoid& E) {
+  double radius = 1.0; // default radius is 1
   if(!obs_.empty()) {
     Face v = closest_obstacle(E, obs_);
     decimal_t b = v.p.dot(v.n);
-    radius_ = std::abs(b - v.n.dot(p_)) / std::sqrt((v.n.dot(E.first * E.first.transpose()*v.n)));
-    //printf("radius = %f\n", radius_);
+    radius = std::abs(b - v.n.dot(p_)) / std::sqrt((v.n.dot(E.first * E.first.transpose()*v.n)));
+    //printf("radius = %f\n", radius);
   }
 
-  ellipsoid_.first = radius_ * E.first;
+  ellipsoid_.first = radius * E.first;
   ellipsoid_.second = E.second;
 
   //**** find half-space
@@ -60,12 +61,11 @@ void SeedDecomp::dilate(const Ellipsoid& E) {
 }
 
 
-
 void SeedDecomp::shrink(decimal_t thr) {
   for (auto &it : polyhedron_) {
     decimal_t b = it.p.dot(it.n);
     decimal_t d = it.n.dot(p_) - b;
-    d = -d - 0.1;
+    d = -d;
     d = d < thr ? d : thr;
     if (d > 0.0)
       it.p -= d * it.n;
