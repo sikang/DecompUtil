@@ -12,53 +12,63 @@
 #include <Eigen/Geometry>
 #include <Eigen/StdVector>
 
-#ifndef BASIC_COLOR_H
-#define BASIC_COLOR_H
-///Set red font in printf funtion 
-#define ANSI_COLOR_RED "\x1b[31m"
-///Set green font in printf funtion 
-#define ANSI_COLOR_GREEN "\x1b[32m"
-///Set yellow font in printf funtion 
-#define ANSI_COLOR_YELLOW "\x1b[33m"
-///Set blue font in printf funtion 
-#define ANSI_COLOR_BLUE "\x1b[34m"
-///Set magenta font in printf funtion 
-#define ANSI_COLOR_MAGENTA "\x1b[35m"
-///Set cyan font in printf funtion 
-#define ANSI_COLOR_CYAN "\x1b[36m"
-///Reset font color in printf funtion 
+///Set red font in printf funtion
+#ifndef ANSI_COLOR_RED
+#define ANSI_COLOR_RED "\x1b[1;31m"
+#endif
+///Set green font in printf funtion
+#ifndef ANSI_COLOR_GREEN
+#define ANSI_COLOR_GREEN "\x1b[1;32m"
+#endif
+///Set yellow font in printf funtion
+#ifndef ANSI_COLOR_YELLOW
+#define ANSI_COLOR_YELLOW "\x1b[1;33m"
+#endif
+///Set blue font in printf funtion
+#ifndef ANSI_COLOR_BLUE
+#define ANSI_COLOR_BLUE "\x1b[1;34m"
+#endif
+///Set magenta font in printf funtion
+#ifndef ANSI_COLOR_MAGENTA
+#define ANSI_COLOR_MAGENTA "\x1b[1;35m"
+#endif
+///Set cyan font in printf funtion
+#ifndef ANSI_COLOR_CYAN
+#define ANSI_COLOR_CYAN "\x1b[1;36m"
+#endif
+///Reset font color in printf funtion
+#ifndef ANSI_COLOR_RESET
 #define ANSI_COLOR_RESET "\x1b[0m"
 #endif
 
-#ifndef BASIC_DATA_H
-#define BASIC_DATA_H
-/*! \brief Rename the float type used in lib 
+#ifndef DATA_TYPE_H
+#define DATA_TYPE_H
+/*! \brief Rename the float type used in lib
 
     Default is set to be double, but user can change it to float.
 */
 typedef double decimal_t;
 
-
 ///Pre-allocated std::vector for Eigen using vec_E
-template <typename T> 
+template <typename T>
 using vec_E = std::vector<T, Eigen::aligned_allocator<T>>;
 ///Eigen 1D float vector
-template <int N> 
+template <int N>
 using Vecf = Eigen::Matrix<decimal_t, N, 1>;
 ///Eigen 1D int vector
-template <int N> 
+template <int N>
 using Veci = Eigen::Matrix<int, N, 1>;
 ///MxN Eigen matrix
-template <int M, int N> 
+template <int M, int N>
 using Matf = Eigen::Matrix<decimal_t, M, N>;
 ///MxN Eigen matrix with M unknown
-template <int N> 
+template <int N>
 using MatDNf = Eigen::Matrix<decimal_t, Eigen::Dynamic, N>;
 ///Vector of Eigen 1D float vector
-template <int N> 
+template <int N>
 using vec_Vecf = vec_E<Vecf<N>>;
 ///Vector of Eigen 1D int vector
-template <int N> 
+template <int N>
 using vec_Veci = vec_E<Veci<N>>;
 
 ///Eigen 1D float vector of size 2
@@ -127,11 +137,8 @@ class Face {
 typedef vec_E<Face> Polyhedron; // composed by planes with form (p, n)
 ///Vector of Polyhedron
 typedef vec_E<Polyhedron> Polyhedra;
-
 ///Extreme points of a polyhedron
 typedef vec_E<vec_Vec3f> BoundVec3f; // compose by extreme points
-
-
 #endif
 
 #ifndef BASIC_DECOMP_H
@@ -146,7 +153,7 @@ typedef Eigen::Quaternion<decimal_t> Quatf;
 ///std::pair of Eigen::Vector3d
 typedef std::pair<Vec3f, Vec3f> pair_Vec3f;
 ///[A, b] for \f$Ax <= b\f$
-typedef std::pair<MatD3f, VecDf> LinearConstraint3f; 
+typedef std::pair<MatD3f, VecDf> LinearConstraint3f;
 ///Vector of LinearConstraint
 typedef vec_E<LinearConstraint3f> vec_LinearConstraint3f;
 
