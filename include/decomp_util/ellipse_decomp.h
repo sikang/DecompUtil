@@ -18,33 +18,34 @@
  *
  * EllipseDecomp takes input as a given path and find the Safe Flight Corridor around it using Ellipsoids
  */
-class EllipseDecomp {
+template <int Dim>
+class EllipsoidDecomp {
 public:
   ///Simple constructor
-  EllipseDecomp(bool verbose = false);
+  EllipsoidDecomp(bool verbose = false);
   /**
    * @brief Basic constructor
    * @param origin The origin of the global bounding box
    * @param dim The dimension of the global bounding box
    */
-  EllipseDecomp(const Vec3f &origin, const Vec3f &dim, bool verbose = false);
+  EllipsoidDecomp(const Vecf<Dim> &origin, const Vecf<Dim> &dim, bool verbose = false);
   ///Set obstacle points
-  void set_obstacles(const vec_Vec3f &obs) { obs_ = obs; }
-  ///Set dimension of virtual bounding box
-  void set_virtual_box(const Vec3f& v) { virtual_ = v; }
+  void set_obstacles(const vec_Vecf<Dim> &obs) { obs_ = obs; }
+  ///Set dimension of bounding box
+  void set_local_bounding_box(const Vecf<Dim>& bbox) { local_bbox_ = bbox; }
 
   ///Get the path that is used for dilation
-  vec_Vec3f get_dilate_path() const { return dilate_path_; }
+  vec_Vecf<Dim> get_dilate_path() const { return dilate_path_; }
   ///Get the new path in the center of the Safe Flight Corridor
-  vec_Vec3f get_center_path() const { return center_path_; }
+  vec_Vecf<Dim> get_center_path() const { return center_path_; }
   ///Get the Safe Flight Corridor
-  Polyhedra get_polyhedra() const { return polyhedrons_; }
+  Polyhedra<Dim> get_polyhedra() const { return polyheda_; }
   ///Get the intersected part of Safe Flight Corridor
-  Polyhedra get_intersect_polyhedra() const { return intersect_polyhedrons_; }
+  Polyhedra<Dim> get_intersect_polyhedra() const { return intersect_polyheda_; }
   ///Get the ellipsoids
-  vec_Ellipsoid get_ellipsoids() const { return ellipsoids_; }
+  vec_E<Ellipsoid<Dim>> get_ellipsoids() const { return ellipsoids_; }
   ///Get the constraints of SFC as \f$Ax\leq b \f$
-  vec_LinearConstraint3f get_constraints();
+  vec_E<LinearConstraint<Dim>> get_constraints();
   ///Calculate the total volume of the SFC
   decimal_t get_corridor_volume();
   ///Calculate the total volume of the ellipsoids
@@ -55,39 +56,40 @@ public:
 
   /**
    * @brief Decomposition thread
-   * @param poses The path to dilate
+   * @param ppath The path to dilate
    * @param offset_x offset added to the long semi-axis, default is 0
    */
-  bool decomp(const vec_Vec3f &poses, double offset_x = 0);
+  bool decomp(const vec_Vecf<Dim> &path, double offset_x = 0);
 
   /**
    * @brief Shrink the safe flight corridor
    * @param path path that used to shirnk
    * @param shrink_distance shrinking distance, should be positive
    */
-  void shrink(const vec_Vec3f &path, double shrink_distance);
+  void shrink(const vec_Vecf<Dim> &path, double shrink_distance);
 
 protected:
   void clear();
-  void add_bounding(Polyhedron &Vs);
+  void add_bounding(Polyhedron<Dim> &Vs);
 
-  vec_Vec3f cal_centers(const Polyhedra &Vs);
+  vec_Vecf<Dim> cal_centers(const Polyhedra<Dim> &Vs);
 
-  vec_Vec3f dilate_path_;
-  vec_Vec3f center_path_;
-  vec_Vec3f obs_;
+  vec_Vecf<Dim> dilate_path_;
+  vec_Vecf<Dim> center_path_;
+  vec_Vecf<Dim> obs_;
 
-  vec_Ellipsoid ellipsoids_;
-  Polyhedra polyhedrons_;
-  Polyhedra intersect_polyhedrons_;
+  vec_E<Ellipsoid<Dim>> ellipsoids_;
+  Polyhedra<Dim> polyhedra_;
+  Polyhedra<Dim> intersect_polyhedra_;
   std::vector<std::shared_ptr<LineSegment>> lines_;
 
-  Vec3f min_; // bounding box params
-  Vec3f max_;
-  bool has_bounding_box_ = false;
 
-  bool verbose_ = false;
+  bool verbose_{false};
 
-  Vec3f virtual_ = Vec3f(0, 0, 0);
+  bool has_bounding_box_{false};
+  Vecf<Dim> local_bbox_{Vecf<Dim>::Zero()};
+  Vecf<Dim> global_bbox_min_{Vecf<Dim>::Zero()}; // bounding box params
+  Vecf<Dim> global_bbox_max_{Vecf<Dim>::Zero()};
+
 };
 #endif

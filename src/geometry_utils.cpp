@@ -1,4 +1,4 @@
-#include <decomp_util/geometry_utils.h>
+#include <decomp_util/geometric_utils.h>
 
 Quatf vec_to_quaternion(const Vec3f &v) {
   // zero roll
@@ -9,149 +9,6 @@ Quatf vec_to_quaternion(const Vec3f &v) {
   return qz * qy * qx;
 }
 
-//**** Calculate eigen values
-Vec3f eigen_value(const Mat3f& A) {
-  Eigen::SelfAdjointEigenSolver<Mat3f> es(A);
-  return es.eigenvalues();
-}
-
-//**** Sort poits in an order
-vec_Vec3f sort_pts(const vec_Vec3f &pts) {
-  //**** sort in body frame
-  Vec3f avg = Vec3f::Zero();
-  for (auto p : pts)
-    avg += p;
-  avg /= pts.size();
-
-  vec_E<std::pair<decimal_t, Vec3f>> ps_valued;
-  ps_valued.resize(pts.size());
-  for (unsigned int i = 0; i < pts.size(); i++) {
-    decimal_t theta = atan2(pts[i](1) - avg(1), pts[i](0) - avg(0));
-    ps_valued[i] = std::make_pair(theta, pts[i]);
-  }
-
-  std::sort(ps_valued.begin(), ps_valued.end(), compP<decimal_t, Vec3f>);
-  vec_Vec3f b;
-  for (const auto& it : ps_valued)
-    b.push_back(it.second);
-  return b;
-}
-
-Face closest_obstacle(const Ellipsoid &E, const vec_Vec3f &O) {
-  decimal_t dist = std::numeric_limits<decimal_t>::max();
-  Vec3f vt, best_v;
-  best_v = E.second;
-  for (const auto &it : O) {
-    vt = E.first.inverse() * (it - E.second);
-    if (vt.norm() < dist) {
-      dist = vt.norm();
-      best_v = it;
-    }
-  }
-
-  Vec3f a = E.first.inverse() * E.first.inverse().transpose() *
-    (best_v - E.second);
-  a = a.normalized();
-  return Face(best_v, a);
-}
-
-
-
-//Calculate points inside polyhedron
-vec_Vec3f ps_in_polytope(const Polyhedron &Vs, const vec_Vec3f &O) {
-  vec_Vec3f new_O;
-  for (const auto &it : O) {
-    if (inside_polytope(it, Vs))
-      new_O.push_back(it);
-  }
-  return new_O;
-}
-
-
-//**** Determine if a point p is inside polytope
-bool inside_polytope(const Vec3f &p,
-                     const Polyhedron &Vs,
-                     decimal_t epsilon) {
-  bool inside = true;
-  for (const auto& v : Vs) {
-    Vec3f a = v.n;
-    decimal_t b = v.p.dot(a);
-    if (a.dot(p) - b > epsilon) {
-      inside = false;
-      break;
-    }
-  }
-  return inside;
-}
-
-//**** Determine if a point p is inside polytope
-bool inside_polytope(const Vec3f &p,
-                     const LinearConstraint3f& C){
-  VecDf d = C.first * p - C.second;
-  for (unsigned int i = 0; i < d.rows(); i++) {
-    if (d(i) > 0)
-      return false;
-  }
-  return true;
-}
-
-bool inside_ellipsoid(const Ellipsoid& E,
-    const vec_Vec3f& O) {
-  for (const auto &it : O) {
-    decimal_t d = (E.first.inverse() * (it - E.second)).norm();
-    if (d < 1 - 0.001) return true;
-  }
-  return false;
-}
-
-bool closest_pt(const Ellipsoid &E,
-    const vec_Vec3f &O,
-    Vec3f &best_v,
-    int& id) {
-  decimal_t dist = std::numeric_limits<decimal_t>::max();
-  int cnt = 0;
-  for (const auto &it : O) {
-    decimal_t d = (E.first.inverse() * (it - E.second)).norm();
-    if (d < dist) {
-      dist = d;
-      best_v = it;
-      id = cnt;
-    }
-    cnt ++;
-  }
-  return dist < 1; // must have this epsilon here!
-  //return dist >= 1 - epsilon_; // must have this epsilon here!
-}
-
-//**** Find normals
-//*** used for visualization
-vec_E<pair_Vec3f> cal_normals(const Polyhedron &vts) {
-  vec_E<pair_Vec3f> ns;
-  for (const auto& it : vts)
-    ns.push_back(std::make_pair(it.n, it.p));
-  return ns;
-}
-
-//**** Construct Ax <= b
-//*** p0 must be inside polytope
-LinearConstraint3f cal_Axb(const Vec3f& p0,
-                           const Polyhedron &Vs) {
-  const unsigned int size = Vs.size();
-  MatD3f A(size, 3);
-  VecDf b(size);
-
-  for (unsigned int i = 0; i < size; i++) {
-    Vec3f n = Vs[i].n;
-    decimal_t c = Vs[i].p.dot(n);
-    if (n.dot(p0) - c > 0) {
-      n = -n;
-      c = -c;
-    }
-    A.row(i) = n;
-    b(i) = c;
-  }
-  return std::make_pair(A, b);
-}
 
 //**** Find intersection between two Line
 //*** return false if they are not intersected
@@ -521,13 +378,7 @@ decimal_t cal_closest_dist(const Vec3f& pt, const Polyhedron& vs){
   return dist;
 }
 
-vec_Vec3f ps_in_ellipsoid(const Ellipsoid &E,
-    const vec_Vec3f &O) {
-  vec_Vec3f new_O;
-  for (const auto &it : O) {
-    decimal_t d = (E.first.inverse() * (it - E.second)).norm();
-    if (d < 1)
-      new_O.push_back(it);
-  }
-  return new_O;
-}
+
+
+
+

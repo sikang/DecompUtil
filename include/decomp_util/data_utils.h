@@ -7,12 +7,6 @@
 
 #include <decomp_util/data_type.h>
 
-///Compare function used for sort vector
-template <class T1, class T2>
-bool compP(const std::pair<T1, T2> &a, const std::pair<T1, T2> &b) {
-  return (a.first < b.first);
-}
-
 ///Template for transforming a vector
 template <class T, class TF>
 vec_E<T> transform_vec(const vec_E<T> &t, const TF &tf) {

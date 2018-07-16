@@ -104,7 +104,9 @@ typedef Matf<6, 6> Mat6f;
 
 ///Dynamic Nx1 Eigen float vector
 typedef Vecf<Eigen::Dynamic> VecDf;
-///Mx3 Eigen float matrix
+///Nx2 Eigen float matrix
+typedef MatDNf<2> MatD2f;
+///Nx3 Eigen float matrix
 typedef MatDNf<3> MatD3f;
 ///Dynamic MxN Eigen float matrix
 typedef Matf<Eigen::Dynamic, Eigen::Dynamic> MatDf;
@@ -113,49 +115,5 @@ typedef Matf<Eigen::Dynamic, Eigen::Dynamic> MatDf;
 typedef Eigen::Transform<decimal_t, 2, Eigen::Affine> Aff2f;
 ///Allias of Eigen::Affine3d
 typedef Eigen::Transform<decimal_t, 3, Eigen::Affine> Aff3f;
-
-///Ellipsoid: first is the Affine Transform, second is the center
-typedef std::pair<Mat3f, Vec3f> Ellipsoid;
-///Vector of Ellipsoids
-typedef vec_E<Ellipsoid> vec_Ellipsoid;
-
-///Face class
-class Face {
-  public:
-    Vec3f p;
-    Vec3f n;
-    bool pass;
-
-    //EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
-    Face(Vec3f _p, Vec3f _n):
-      p(_p), n(_n), pass(true) {}
-    Face(Vec3f _p, Vec3f _n, bool _pass):
-      p(_p), n(_n), pass(_pass) {}
-};
-
-///Polyhedron, consists of faces
-typedef vec_E<Face> Polyhedron; // composed by planes with form (p, n)
-///Vector of Polyhedron
-typedef vec_E<Polyhedron> Polyhedra;
-///Extreme points of a polyhedron
-typedef vec_E<vec_Vec3f> BoundVec3f; // compose by extreme points
 #endif
 
-#ifndef BASIC_DECOMP_H
-#define BASIC_DECOMP_H
-//Allias of Eigen::Translation
-typedef Eigen::Translation<decimal_t, 3> Trans3f;
-//Allias of Eigen::AngleAxis
-typedef Eigen::AngleAxis<decimal_t> Anglef;
-
-///Allias of Eigen::Quaterniond
-typedef Eigen::Quaternion<decimal_t> Quatf;
-///std::pair of Eigen::Vector3d
-typedef std::pair<Vec3f, Vec3f> pair_Vec3f;
-///[A, b] for \f$Ax <= b\f$
-typedef std::pair<MatD3f, VecDf> LinearConstraint3f;
-///Vector of LinearConstraint
-typedef vec_E<LinearConstraint3f> vec_LinearConstraint3f;
-
-
-#endif

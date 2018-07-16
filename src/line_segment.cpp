@@ -1,77 +1,89 @@
-#include <decomp_util/ellipse_decomp.h>
+#include <decomp_util/line_segment.h>
 
-LineSegment::LineSegment(const Vec3f &p1, const Vec3f &p2):
+template <int Dim>
+LineSegment<Dim>::LineSegment(const Vecf<Dim> &p1, const Vecf<Dim> &p2):
   p1_(p1), p2_(p2) {}
 
-
-void LineSegment::set_virtual_dim(decimal_t x, decimal_t y, decimal_t z){
-  virtual_x_ = x;
-  virtual_y_ = y;
-  virtual_z_ = z;
+template <int Dim>
+void LineSegment<Dim>::set_local_bbox(const Vecf<Dim>& bbox) {
+  local_bbox_ = bbox;
 }
 
-void LineSegment::set_obstacles(const vec_Vec3f& obs) {
-  Polyhedron vs;
-  add_virtual_wall(vs);
-  obs_ = ps_in_polytope(vs, obs);
+template <int Dim>
+void LineSegment<Dim>::set_obstacles(const vec_Vecf<Dim>& obs) {
+  // only consider points inside local bbox
+  Polyhedron<Dim> vs;
+  add_local_bbox(vs);
+  obs_ = points_inside_polyhedron(vs, obs);
 }
 
-Ellipsoid LineSegment::find_ellipsoid(const Vec3f& p1, const Vec3f& p2, double offset_x){
+template <int Dim>
+Ellipsoid<Dim> LineSegment<Dim>::find_ellipsoid(const Vecf<Dim> &p1,
+                                                const Vecf<Dim> &p2,
+                                                double offset_x) {
   const decimal_t f = (p1 - p2).norm() / 2;
-  Mat3f C = f * Mat3f::Identity();
+  Matf<Dim, Dim> C = f * Matf<Dim, Dim>::Identity();
+  Vecf<Dim> axes = f * Vecf<Dim>::One();
   C(0, 0) += offset_x;
-  Vec3f axes(C(0, 0), C(1, 1), C(2, 2));
+  axes(0) += offset_x;
+
   if(axes(0) > 0) {
     double ratio = axes(1) / axes(0);
     axes *= ratio;
     C *= ratio;
   }
 
-  const Quatf qi = vec_to_quaternion(p2 - p1);
-  C = qi * C * qi.conjugate();
+  const auto Ri = vec_to_rotation(p2 - p1);
+  C = Ri * C * Ri.transpose();
 
-  Ellipsoid E = std::make_pair(C, (p1 + p2) / 2);
-  Vec3f pw = Vec3f::Zero();
-  Quatf qf = qi;
+  Ellipsoid<Dim> E = std::make_pair(C, (p1 + p2) / 2);
+  auto Rf = Ri;
 
-  vec_Vec3f Os = ps_in_ellipsoid(E, obs_);
-  Vec3f prev_pw;
+  vec_Vecf<Dim> obs = points_inside_ellipsoid(E, obs_);
+  Vecf<Dim> prev_pw;
   bool removed = false;
   //**** decide short axes
-  while (inside_ellipsoid(E, Os)) {
+  while (inside_ellipsoid(E, obs)) {
     int id = -1;
-    closest_pt(E, Os, pw, id);
-    Vec3f p = qi.inverse() * (pw - E.second); // to ellipse frame
-    const decimal_t roll = atan2(p(2), p(1));
-    qf = qi * Quatf(cos(roll / 2), sin(roll / 2), 0, 0);
-    p = qf.inverse() * (pw - E.second);
-    axes(1) = fabs(p(1)) / sqrt(1 - pow(p(0) / axes(0), 2));
-    E.first = Mat3f::Identity();
+    const auto pw = closest_point(E, obs, id);
+    auto p = Ri.transpose() * (pw - E.second); // to ellipsoid frame
+    if(Dim > 2) {
+      const decimal_t roll = atan2(p(2), p(1));
+      Rf = Ri * Quatf(cos(roll / 2), sin(roll / 2), 0, 0);
+      p = Rf.inverse() * (pw - E.second);
+    }
+
+    axes(1) = std::abs(p(1)) / std::sqrt(1 - std::pow(p(0) / axes(0), 2));
+    E.first = Matf<Dim, Dim>::Identity();
     E.first(0, 0) = axes(0);
     E.first(1, 1) = axes(1);
-    E.first(2, 2) = axes(1);
-    E.first = qf * E.first * qf.conjugate();
+    if(Dim > 2)
+      E.first(2, 2) = axes(1);
+    E.first = Rf * E.first * Rf.transpose();
 
-    Os.erase(Os.begin() + id); // remove pw
+    obs.erase(obs.begin() + id); // remove pw
     if(removed)
-      Os.push_back(prev_pw);
+      obs.push_back(prev_pw);
     removed = true;
     prev_pw = pw;
-
   }
 
+  if(Dim == 2)
+    return E;
+
   //**** reset ellipsoid with old axes(2)
-  E.first = f * Mat3f::Identity();
+  E.first = f * Matf<Dim, Dim>::Identity();
   E.first(0, 0) = axes(0);
   E.first(1, 1) = axes(1);
   E.first(2, 2) = axes(2);
-  E.first = qf * E.first * qf.conjugate();
-  Os = ps_in_ellipsoid(E, Os);
+  E.first = Rf * E.first * Rf.transpose();
+  obs = points_inside_ellipsoid(E, obs);
 
   removed = false;
-  while (inside_ellipsoid(E, Os)) {
+  while (inside_ellipsoid(E, obs)) {
+    Vecf<Dim> pw = Vecf<Dim>::Zero();
     int id = -1;
-    closest_pt(E, Os, pw, id);
+    closest_pt(E, obs, pw, id);
 
     Vec3f p = qf.inverse() * (pw - E.second);
     axes(2) =
@@ -117,34 +129,47 @@ Polyhedron LineSegment::find_polyhedron(const Ellipsoid& E){
   return Vs;
 }
 
-void LineSegment::add_virtual_wall(Polyhedron &Vs) {
+template <int Dim>
+void LineSegment<Dim>::add_local_bbox(Polyhedron<Dim> &Vs) {
+  if(local_bbox_.norm() == 0)
+    return;
   //**** virtual walls parallel to path p1->p2
-  Vec3f dir = p2_ - p1_;
-  dir /= dir.norm();
-  Vec3f dir_h(dir(1), -dir(0), 0);
-  if (dir_h == Vec3f::Zero())
-    dir_h << -1, 0, 0;
-  Vec3f pp1 = p1_ + dir_h * virtual_y_;
-  Vec3f pp2 = p1_ - dir_h * virtual_y_;
-  Vs.push_back(Face(pp1, dir_h));
-  Vs.push_back(Face(pp2, -dir_h));
+  Vecf<Dim> dir = (p2_ - p1_).normalized();
+  Vecf<Dim> dir_h = Vecf<Dim>::Zero();
+  dir_h(0) = dir(1), dir_h(2) = -dir(0);
+  if (dir_h.norm() == 0) {
+    if(Dim == 2)
+      dir_h << -1, 0;
+    else
+      dir_h << -1, 0, 0;
+  }
+  dir_h = dir_h.normalized();
 
-  Vec3f dir_v = dir.cross(dir_h);
-  Vec3f pp3 = p1_ + dir_v * virtual_z_;
-  Vec3f pp4 = p1_ - dir_v * virtual_z_;
-  Vs.push_back(Face(pp3, dir_v));
-  Vs.push_back(Face(pp4, -dir_v));
+  // along x
+  Vecf<Dim> pp1 = p1_ + dir_h * local_bbox_(1);
+  Vecf<Dim> pp2 = p1_ - dir_h * local_bbox_(1);
+  Vs.push_back(std::make_pair(pp1, dir_h));
+  Vs.push_back(std::make_pair(pp2, -dir_h));
 
-  Vec3f pp5 = p2_ + dir * virtual_x_;
-  Vec3f pp6 = p1_ - dir * virtual_x_;
-  Vs.push_back(Face(pp5, dir));
-  Vs.push_back(Face(pp6, -dir));
+  // along y
+  Vecf<Dim> pp3 = p2_ + dir * local_bbox_(0);
+  Vecf<Dim> pp4 = p1_ - dir * local_bbox_(0);
+  Vs.push_back(std::make_pair(pp3, dir));
+  Vs.push_back(std::make_pair(pp4, -dir));
+
+  if(Dim > 2) {
+    Vecf<Dim> dir_v = dir.cross(dir_h);
+    Vecf<Dim> pp5 = p1_ + dir_v * local_bbox_(2);
+    Vecf<Dim> pp6 = p1_ - dir_v * local_bbox_(2);
+    Vs.push_back(std::make_pair(pp5, dir_v));
+    Vs.push_back(std::make_pair(pp6, -dir_v));
+  }
 }
 
 void LineSegment::dilate(decimal_t radius) {
   ellipsoid_ = find_ellipsoid(p1_, p2_, radius);
   polyhedron_ = find_polyhedron(ellipsoid_);
-  add_virtual_wall(polyhedron_);
+  add_local_bbox(polyhedron_);
 }
 
 
