@@ -17,26 +17,22 @@ Vecf<Dim> eigen_value(const Matf<Dim, Dim>& A) {
 }
 
 /// Calculate rotation matrix from a vector (aligned with x-axis)
-template <int Dim>
-Matf<Dim, Dim> vec_to_rotation(const Vecf<Dim> &v) {
-  if(Dim == 2) {
-    decimal_t yaw = std::atan2(v(1), v(0));
-    Matf<Dim, Dim> R;
-    R << cos(yaw), sin(yaw),
-      -sin(yaw), cos(yaw);
-    return R;
-  }
-  else if(Dim == 3) {
-    // zero roll
-    const Vecf<Dim> rpy;
-    rpy << 0, std::atan2(-v(2), v.topRows(2).norm()), std::atan2(v(1), v(0));
-    Quatf qx(cos(rpy(0) / 2), sin(rpy(0) / 2), 0, 0);
-    Quatf qy(cos(rpy(1) / 2), 0, sin(rpy(1) / 2), 0);
-    Quatf qz(cos(rpy(2) / 2), 0, 0, sin(rpy(2) / 2));
-    return Matf<Dim, Dim>(qz * qy * qx);
-  }
-  else
-    return Matf<Dim, Dim>();
+Mat2f vec2_to_rotation(const Vec2f &v) {
+  decimal_t yaw = std::atan2(v(1), v(0));
+  Mat2f R;
+  R << cos(yaw), -sin(yaw),
+    sin(yaw), cos(yaw);
+  return R;
+}
+
+Mat3f vec3_to_rotation(const Vec3f &v) {
+  // zero roll
+  Vec3f rpy(0, std::atan2(-v(2), v.topRows<2>().norm()),
+            std::atan2(v(1), v(0)));
+  Quatf qx(cos(rpy(0) / 2), sin(rpy(0) / 2), 0, 0);
+  Quatf qy(cos(rpy(1) / 2), 0, sin(rpy(1) / 2), 0);
+  Quatf qz(cos(rpy(2) / 2), 0, 0, sin(rpy(2) / 2));
+  return Mat3f(qz * qy * qx);
 }
 
 /// Sort points on the same plane in the counter-clockwise order

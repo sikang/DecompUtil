@@ -1,10 +1,11 @@
-#include <decomp_util/seed_decomp.h>
+#include <decomp_util/line_segment.h>
 #include <decomp_geometry/geometric_utils.h>
 
 #include <fstream>
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
+
 
 int main(int argc, char **argv) {
   // Obstacles
@@ -15,19 +16,21 @@ int main(int argc, char **argv) {
   obs.push_back(Vec2f(-0.5, -0.5));
 
   // Seed
-  const Vec2f pos(0, 0);
+  const Vec2f pos1(0, 0);
+  const Vec2f pos2(1.0, 0.0);
 
   // Initialize SeedDecomp2D
-  SeedDecomp2D decomp(pos);
+  LineSegment2D decomp(pos1, pos2);
   decomp.set_obs(obs);
   decomp.set_local_bbox(Vec2f(2, 2));
-  decomp.dilate(.1);
+  decomp.dilate(0);
 
   // Plot the result in svg image
   typedef boost::geometry::model::d2::point_xy<double> point_2d;
   std::ofstream svg("output.svg");
   // Declare a stream and an SVG mapper
   boost::geometry::svg_mapper<point_2d> mapper(svg, 1000, 1000);
+
 
 
   // Draw the canvas 4 x 4m
@@ -84,7 +87,7 @@ int main(int argc, char **argv) {
 
 
   // Write title at the lower right corner on canvas
-  mapper.text(point_2d(1.0, -1.8), "test_seed_decomp",
+  mapper.text(point_2d(1.0, -1.8), "test_line_segment",
               "fill-opacity:1.0;fill:rgb(10,10,250);");
 
   return 0;

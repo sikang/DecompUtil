@@ -6,6 +6,7 @@
 #ifndef DECOMP_ELLIPSOID_H
 #define DECOMP_ELLIPSOID_H
 
+#include <iostream>
 #include <decomp_basis/data_type.h>
 #include <decomp_geometry/polyhedron.h>
 
@@ -56,17 +57,23 @@ struct Ellipsoid {
     return Hyperplane<Dim>(closest_pt, n.normalized());
   }
 
-  vec_Vecf<Dim> sample(int num) const {
+  /// Sample n points along the contour
+  template<int U = Dim>
+    typename std::enable_if<U == 2, vec_Vecf<U>>::type
+    sample(int num) const {
     vec_Vecf<Dim> pts;
-    if(Dim == 2) {
       decimal_t dyaw = M_PI*2/num;
       for(decimal_t yaw = 0; yaw < M_PI*2; yaw+=dyaw) {
         Vecf<Dim> pt;
         pt << cos(yaw), sin(yaw);
         pts.push_back(C_ * pt + d_);
-      }
     }
     return pts;
+  }
+
+  void print() const {
+    std::cout << "C: " << C_ << std::endl;
+    std::cout << "d: " << d_ << std::endl;
   }
 
   /// Get ellipsoid volume

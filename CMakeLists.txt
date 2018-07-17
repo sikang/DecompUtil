@@ -28,6 +28,11 @@ add_executable(test_seed_decomp test/test_seed_decomp.cpp)
 target_link_libraries(test_seed_decomp ${Boost_LIBRARIES})
 add_test(test_seed_decomp test_seed_decomp)
 
+add_executable(test_line_segment test/test_line_segment.cpp)
+target_link_libraries(test_line_segment ${Boost_LIBRARIES})
+add_test(test_line_segment test_line_segment)
+
+
 install(FILES "${PROJECT_NAME}Config.cmake" "${PROJECT_NAME}ConfigVersion.cmake"
   DESTINATION "share/${PROJECT_NAME}/cmake")
 
