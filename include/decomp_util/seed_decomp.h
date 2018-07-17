@@ -33,20 +33,9 @@ class SeedDecomp : public DecompBase<Dim> {
       add_local_bbox(this->polyhedron_);
     }
 
-    /**
-     * @brief Shrink the polyhedron
-     * @param shrink_distance Shrink distance
-     */
-    void shrink(double shrink_distance) {
-      /*
-      for (auto &it : this->polyhedron_) {
-        decimal_t b = it.p_.dot(it.n_);
-        decimal_t d = it.n_.dot(p_) - b;
-        d = -d;
-        d = d < shrink_distance ? d : shrink_distance;
-        if (d > 0.0)
-          it.p_ -= d * it.n_;
-      }*/
+    /// Get the center
+    Vecf<Dim> get_seed() const {
+      return p_;
     }
 
   protected:

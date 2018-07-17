@@ -73,14 +73,22 @@ int main(int argc, char **argv) {
   {
     const auto poly = decomp.get_polyhedron();
     const auto vertices = cal_vertices(poly);
-    boost::geometry::model::linestring<point_2d> line;
-    for (const auto& it: vertices)
-      line.push_back(point_2d(it(0), it(1)));
-    line.push_back(line.front());
-    mapper.add(line);
-    mapper.map(line,
-               "opacity:0.8;fill:none;stroke:rgb(118,215,234);stroke-width:5");
-  }
+    std::string ss("POLYGON((");
+    for (size_t i = 0; i < vertices.size(); i++) {
+      ss += std::to_string(vertices[i](0)) + " " +
+        std::to_string(vertices[i](1));
+      if(i == vertices.size() - 1)
+        ss += "))";
+      else
+        ss += ",";
+    }
+
+    boost::geometry::model::polygon<point_2d> p;
+    boost::geometry::read_wkt(ss, p);
+    //boost::geometry::read_wkt("POLYGON((0 0,0 7,4 2,2 0,0 0))", p);
+    mapper.add(p);
+    mapper.map(p, "fill-opacity:0.2;fill:rgb(51,51,153);stroke:rgb(51,51,153);stroke-width:2");
+ }
 
 
   // Write title at the lower right corner on canvas

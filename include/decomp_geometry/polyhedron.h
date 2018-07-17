@@ -79,6 +79,10 @@ struct Polyhedron {
     return ns;
   }
 
+  /// Get the hyperplane array
+  vec_E<Hyperplane<Dim>> hyperplanes() const {
+    return vs_;
+  }
 
   /// Hyperplane array
   vec_E<Hyperplane<Dim>> vs_; // normal must go outside
@@ -89,14 +93,6 @@ struct Polyhedron {
 typedef Polyhedron<2> Polyhedron2D;
 ///Polyhedron3D, consists of 3D hyperplane
 typedef Polyhedron<3> Polyhedron3D;
-
-///Vector of Polyhedron
-template <int Dim>
-using Polyhedra = vec_E<Polyhedron<Dim>>;
-///Vector of Polyhedron2D
-typedef Polyhedra<2> Polyhedra2D;
-///Vector of Polyhedron3D
-typedef Polyhedra<3> Polyhedra3D;
 
 ///[A, b] for \f$Ax < b\f$
 template <int Dim>

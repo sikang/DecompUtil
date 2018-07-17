@@ -34,6 +34,14 @@ class LineSegment : public DecompBase<Dim> {
       add_local_bbox(this->polyhedron_);
     }
 
+    /// Get the line
+    vec_Vecf<Dim> get_line_segment() const {
+      vec_Vecf<Dim> line;
+      line.push_back(p1_);
+      line.push_back(p2_);
+      return line;
+    }
+
   protected:
     ///Add the bounding box
     void add_local_bbox(Polyhedron<Dim> &Vs) {
@@ -76,6 +84,7 @@ class LineSegment : public DecompBase<Dim> {
       }
     }
 
+    /// Find ellipsoid in 2D
     template<int U = Dim>
       typename std::enable_if<U == 2>::type
       find_ellipsoid(double offset_x) {
@@ -97,6 +106,7 @@ class LineSegment : public DecompBase<Dim> {
         Ellipsoid<Dim> E(C, (p1_ + p2_) / 2);
 
         auto obs = E.points_inside(this->obs_);
+
         auto obs_inside = obs;
         //**** decide short axes
         while (!obs_inside.empty()) {
@@ -111,7 +121,7 @@ class LineSegment : public DecompBase<Dim> {
 
           vec_Vecf<Dim> obs_new;
           for(const auto &it: obs_inside) {
-            if(std::abs(E.dist(it) - 1) > epsilon_)
+            if(1 - E.dist(it) > epsilon_)
               obs_new.push_back(it);
           }
           obs_inside = obs_new;
@@ -120,6 +130,7 @@ class LineSegment : public DecompBase<Dim> {
         this->ellipsoid_ = E;
       }
 
+    /// Find ellipsoid in 3D
     template<int U = Dim>
       typename std::enable_if<U == 3>::type
       find_ellipsoid(double offset_x) {
@@ -161,7 +172,7 @@ class LineSegment : public DecompBase<Dim> {
 
         vec_Vecf<Dim> obs_new;
         for(const auto &it: obs_inside) {
-          if(std::abs(E.dist(it) - 1) > epsilon_)
+          if(1 - E.dist(it) > epsilon_)
             obs_new.push_back(it);
         }
         obs_inside = obs_new;
@@ -188,7 +199,7 @@ class LineSegment : public DecompBase<Dim> {
 
         vec_Vecf<Dim> obs_new;
         for(const auto &it: obs_inside) {
-          if(std::abs(E.dist(it) - 1) > epsilon_)
+          if(1 - E.dist(it) > epsilon_)
             obs_new.push_back(it);
         }
         obs_inside = obs_new;

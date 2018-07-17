@@ -16,8 +16,8 @@ int main(int argc, char **argv) {
   obs.push_back(Vec2f(-0.5, -0.5));
 
   // Seed
-  const Vec2f pos1(0, 0);
-  const Vec2f pos2(1.0, 0.0);
+  const Vec2f pos1(1.2, 0.2);
+  const Vec2f pos2(0, 0);
 
   // Initialize SeedDecomp2D
   LineSegment2D decomp(pos1, pos2);
@@ -30,7 +30,6 @@ int main(int argc, char **argv) {
   std::ofstream svg("output.svg");
   // Declare a stream and an SVG mapper
   boost::geometry::svg_mapper<point_2d> mapper(svg, 1000, 1000);
-
 
 
   // Draw the canvas 4 x 4m
@@ -76,13 +75,31 @@ int main(int argc, char **argv) {
   {
     const auto poly = decomp.get_polyhedron();
     const auto vertices = cal_vertices(poly);
+    std::string ss("POLYGON((");
+    for (size_t i = 0; i < vertices.size(); i++) {
+      ss += std::to_string(vertices[i](0)) + " " +
+        std::to_string(vertices[i](1));
+      if(i == vertices.size() - 1)
+        ss += "))";
+      else
+        ss += ",";
+    }
+
+    boost::geometry::model::polygon<point_2d> p;
+    boost::geometry::read_wkt(ss, p);
+    mapper.add(p);
+    mapper.map(p, "fill-opacity:0.2;fill:rgb(51,51,153);stroke:rgb(51,51,153);stroke-width:2");
+  }
+
+  // Draw line segment
+  {
+    const auto line_segment = decomp.get_line_segment();
     boost::geometry::model::linestring<point_2d> line;
-    for (const auto& it: vertices)
+    for(const auto& it: line_segment)
       line.push_back(point_2d(it(0), it(1)));
-    line.push_back(line.front());
     mapper.add(line);
     mapper.map(line,
-               "opacity:0.8;fill:none;stroke:rgb(118,215,234);stroke-width:5");
+               "opacity:0.8;fill:none;stroke:rgb(255,0,0);stroke-width:5");
   }
 
 
