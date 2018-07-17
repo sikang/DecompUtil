@@ -12,16 +12,6 @@ set(BUILD_SHARED_LIBS ON)
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIRS} include)
 
-#add_library(ellipsoid_decomp
-#  src/line_segment.cpp
-#  src/ellipse_decomp.cpp)
-
-#add_library(iterative_decomp src/iterative_decomp.cpp)
-#target_link_libraries(iterative_decomp ellipse_decomp)
-
-#add_library(ellipsoid_utils src/ellipsoid_utils.cpp)
-#target_link_libraries(ellipsoid_utils geometry_utils)
-
 include(CTest)
 
 add_executable(test_seed_decomp test/test_seed_decomp.cpp)
@@ -44,5 +34,5 @@ install(TARGETS
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
 
-install(DIRECTORY include/decomp_basis include/decomp_geomtry include/decomp_util
+install(DIRECTORY include/decomp_basis include/decomp_geometry include/decomp_util
   DESTINATION include)
