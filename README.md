@@ -4,16 +4,24 @@
 A header only c++ library for fast convex decomposition. In the basic pipeline, it implements ellipsoid based regional inflation to model free space from a given path inside a point cloud.
 Detials of the algorithm is proposed in ["S. Liu, M. Watterson, K. Mohta, K. Sun, S. Bhattacharya, C.J. Taylor and V. Kumar. Planning Dynamically Feasible Trajectories for Quadrotors using Safe Flight Corridors in 3-D Complex Environments. ICRA 2017"](http://ieeexplore.ieee.org/document/7839930/).
 
-## Compilation
+## Installation
+DecompUtil is a header only library, several test nodes are compiled during the
+installation.
 #### A) Simple cmake
-```sh
+```bash
 $ mkdir build && cd build && cmake .. && make
 ```
 
 #### B) Using CATKIN (not recognizable by catkin\_make)
-```sh
+```bash
 $ cd mv decomp_util ~/catkin_ws/src
 $ cd ~/catkin_ws & catkin_make_isolated -DCMAKE_BUILD_TYPE=Release
+```
+
+#### CTest
+To check if everything is installed properlly:
+```bash
+$ make test
 ```
 
 #### Include in other projects:
@@ -27,10 +35,9 @@ include_directories(${DECOMP_UTIL_INCLUDE_DIRS})
 The examples of using `SeedDecomp2D`, `LineSegment2D` and `EllipsoidDecomp2D`
 are plotted as followings:
 
-<img src="./data/example1.png" height="200">
-<img src="./data/example2.png" height="200">
-<img src="./data/example3.png" height="200">
+<img src="./data/example1.png" height="200"> <img src="./data/example2.png" height="200"> <img src="./data/example3.png" height="200">
 
+The code for testing can be found in the `test` folder.
 
 ## Doxygen
 For more details, please refer to https://sikang.github.io/DecompUtil/index.html

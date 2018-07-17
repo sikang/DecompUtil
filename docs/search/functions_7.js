@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['obs',['obs',['../classLineSegment.html#a5c905f4358fc8ee58ec64c57b8678fa3',1,'LineSegment::obs()'],['../classSeedDecomp.html#adf60df003da7b49f6ca6ecd31e245e59',1,'SeedDecomp::obs()']]]
+  ['inside',['inside',['../structEllipsoid.html#a868435ccf5806f2aba518a28d39247b4',1,'Ellipsoid::inside()'],['../structPolyhedron.html#a28e5b0eebab18fb8d54fb021333363ce',1,'Polyhedron::inside()'],['../structLinearConstraint.html#a23779a58e2a1094971cdcceeac3f7f74',1,'LinearConstraint::inside()']]]
 ];

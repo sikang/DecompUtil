@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['iterative_5fdecomp_2eh',['iterative_decomp.h',['../iterative__decomp_8h.html',1,'']]],
-  ['iterativedecomp',['IterativeDecomp',['../classIterativeDecomp.html',1,'IterativeDecomp'],['../classIterativeDecomp.html#aeab69c88876193fb8863873406ca3fe2',1,'IterativeDecomp::IterativeDecomp(bool verbose=false)'],['../classIterativeDecomp.html#a84366bb0b8563d6f802b0540f11216c8',1,'IterativeDecomp::IterativeDecomp(const Vec3f &amp;origin, const Vec3f &amp;dim, bool verbose=false)']]]
+  ['inside',['inside',['../structEllipsoid.html#a868435ccf5806f2aba518a28d39247b4',1,'Ellipsoid::inside()'],['../structPolyhedron.html#a28e5b0eebab18fb8d54fb021333363ce',1,'Polyhedron::inside()'],['../structLinearConstraint.html#a23779a58e2a1094971cdcceeac3f7f74',1,'LinearConstraint::inside()']]]
 ];
