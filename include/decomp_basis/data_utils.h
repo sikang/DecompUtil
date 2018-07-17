@@ -2,10 +2,10 @@
  * @file data_utils.h
  * @brief Provide a few widely used function for basic type
  */
-#ifndef DATA_UTIL_H
-#define DATA_UTIL_H
+#ifndef DATA_UTILS_H
+#define DATA_UTILS_H
 
-#include <decomp_util/data_type.h>
+#include <decomp_basis/data_type.h>
 
 ///Template for transforming a vector
 template <class T, class TF>

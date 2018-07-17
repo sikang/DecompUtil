@@ -1,4 +1,12 @@
-#include <decomp_util/data_type.h>
+/**
+ * @file polygon.h
+ * @brief Polygon class
+ */
+
+#ifndef DECOMP_POLYGON_H
+#define DECOMP_POLYGON_H
+
+#include <decomp_basis/data_type.h>
 
 ///Hyperplane class
 template <int Dim>
@@ -7,13 +15,13 @@ struct Hyperplane {
   Hyperplane(const Vecf<Dim>& p, const Vecf<Dim>& n) : p_(p), n_(n) {}
 
   /// Calculate the signed distance from point
-  decimal_t signed_dist(const Vecf<Dim>& p) {
-    return n_.dot(p - p_);
+  decimal_t signed_dist(const Vecf<Dim>& pt) const {
+    return n_.dot(pt - p_);
   }
 
   /// Calculate the distance from point
-  decimal_t dist(const Vecf<Dim>& p) {
-    return std::abs(signed_dist(p));
+  decimal_t dist(const Vecf<Dim>& pt) const {
+    return std::abs(signed_dist(pt));
   }
 
   /// Point on the plane
@@ -23,28 +31,38 @@ struct Hyperplane {
 };
 
 ///Hyperplane2D: first is the point on the hyperplane, second is the normal
-typedef Hyperplane<2> Hyperplane2D
+typedef Hyperplane<2> Hyperplane2D;
 ///Hyperplane3D: first is the point on the hyperplane, second is the normal
-typedef Hyperplane<3> Hyperplane3D
+typedef Hyperplane<3> Hyperplane3D;
 
 
 ///Polyhedron class
 template <int Dim>
 struct Polyhedron {
+  ///Null constructor
   Polyhedron() {}
+  ///Construct from Hyperplane array
   Polyhedron(const vec_E<Hyperplane<Dim>>& vs) : vs_(vs) {}
 
+
+  ///Append Hyperplane
+  void add(const Hyperplane<Dim>& v) {
+    vs_.push_back(v);
+  }
+
   /// Check if the point is inside polyhedron, non-exclusive
-  bool inside(const Vecf<Dim>& pt) {
+  bool inside(const Vecf<Dim>& pt) const {
     for (const auto& v : vs_) {
-      if (v.signed_dist(pt) > 0)
+      if (v.signed_dist(pt) > epsilon_) {
+        //printf("rejected pt: (%f, %f), d: %f\n",pt(0), pt(1), v.signed_dist(pt));
         return false;
+      }
     }
     return true;
   }
 
-  /// Calculate points inside polyhedron
-  vec_Vecf<Dim> points_inside(const vec_Vecf<Dim> &O) {
+  /// Calculate points inside polyhedron, non-exclusive
+  vec_Vecf<Dim> points_inside(const vec_Vecf<Dim> &O) const {
     vec_Vecf<Dim> new_O;
     for (const auto &it : O) {
       if (inside(it))
@@ -54,15 +72,16 @@ struct Polyhedron {
   }
 
   /// Calculate normals, used for visualization
-  vec_E<std::pair<Vecf<Dim>, Vecf<Dim>> cal_normals() {
-    vec_E<std::pair<Vecf<Dim>, Vecf<Dim>> ns(vs_.size());
+  vec_E<std::pair<Vecf<Dim>, Vecf<Dim>>> cal_normals() {
+    vec_E<std::pair<Vecf<Dim>, Vecf<Dim>>> ns(vs_.size());
     for (size_t i = 0; i < vs_.size(); i++)
-      ns[i] = std::make_pair(it.p_, it.n_); // fist is point, second is normal
+      ns[i] = std::make_pair(vs_[i].p_, vs_[i].n_); // fist is point, second is normal
     return ns;
   }
 
+
   /// Hyperplane array
-  vec_E<Polyhedron<Dim>> vs_; // normal must go outside
+  vec_E<Hyperplane<Dim>> vs_; // normal must go outside
 
 };
 
@@ -85,7 +104,7 @@ struct LinearConstraint {
   ///Null constructor
   LinearConstraint() {}
   /// Construct from \f$A, b\f$ directly, s.t \f$Ax < b\f$
-  LinearConstraint(const MatDNf<Dim>& A, const VeDf& b) : A_(A), b_(b) {}
+  LinearConstraint(const MatDNf<Dim>& A, const VecDf& b) : A_(A), b_(b) {}
   /**
    * @brief Construct from a inside point and hyperplane array
    * @param p0 point that is inside
@@ -93,7 +112,7 @@ struct LinearConstraint {
    */
 	LinearConstraint(const Vecf<Dim> p0, const vec_E<Hyperplane<Dim>>& vs) {
 		const unsigned int size = vs.size();
-		MatDNf A(size, Dim);
+		MatDNf<Dim> A(size, Dim);
 		VecDf b(size);
 
 		for (unsigned int i = 0; i < size; i++) {
@@ -130,4 +149,4 @@ typedef LinearConstraint<2> LinearConstraint2D;
 ///LinearConstraint 3D
 typedef LinearConstraint<3> LinearConstraint3D;
 
-
+#endif

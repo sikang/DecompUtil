@@ -115,5 +115,13 @@ typedef Matf<Eigen::Dynamic, Eigen::Dynamic> MatDf;
 typedef Eigen::Transform<decimal_t, 2, Eigen::Affine> Aff2f;
 ///Allias of Eigen::Affine3d
 typedef Eigen::Transform<decimal_t, 3, Eigen::Affine> Aff3f;
+
+///Allias of Eigen::Quaterniond
+typedef Eigen::Quaternion<decimal_t> Quatf;
 #endif
 
+#ifndef EIGEN_EPSILON
+#define EIGEN_EPSILON
+///Compensate for numerical error
+constexpr decimal_t epsilon_ = 1e-10; // numerical calculation error
+#endif
