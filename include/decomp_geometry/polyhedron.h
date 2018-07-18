@@ -72,7 +72,7 @@ struct Polyhedron {
   }
 
   /// Calculate normals, used for visualization
-  vec_E<std::pair<Vecf<Dim>, Vecf<Dim>>> cal_normals() {
+  vec_E<std::pair<Vecf<Dim>, Vecf<Dim>>> cal_normals() const {
     vec_E<std::pair<Vecf<Dim>, Vecf<Dim>>> ns(vs_.size());
     for (size_t i = 0; i < vs_.size(); i++)
       ns[i] = std::make_pair(vs_[i].p_, vs_[i].n_); // fist is point, second is normal

@@ -17,24 +17,15 @@ template <int Dim>
 class EllipsoidDecomp {
 public:
  ///Simple constructor
- EllipsoidDecomp(bool verbose = false) : verbose_(verbose) {
-   if(verbose_)
-     printf(ANSI_COLOR_GREEN "DECOMP VERBOSE ON! \n" ANSI_COLOR_RESET);
- }
+ EllipsoidDecomp() {}
  /**
   * @brief Basic constructor
   * @param origin The origin of the global bounding box
   * @param dim The dimension of the global bounding box
   */
- EllipsoidDecomp(const Vecf<Dim> &origin, const Vecf<Dim> &dim,
-                 bool verbose = false) : verbose_(verbose) {
+ EllipsoidDecomp(const Vecf<Dim> &origin, const Vecf<Dim> &dim) {
    global_bbox_min_ = origin;
    global_bbox_max_ = origin + dim;
-   if(verbose_) {
-     printf(ANSI_COLOR_GREEN "DECOMP VERBOSE ON! \n" ANSI_COLOR_RESET);
-     std::cout << "Global min: " << global_bbox_min_.transpose() << std::endl;
-     std::cout << "Global max: " << global_bbox_max_.transpose() << std::endl;
-   }
  }
 
  ///Set obstacle points
@@ -69,11 +60,8 @@ public:
   * @param offset_x offset added to the long semi-axis, default is 0
   */
  bool dilate(const vec_Vecf<Dim> &path, double offset_x = 0) {
-   if (path.size() < 2) {
-     if(verbose_)
-       printf(ANSI_COLOR_RED "Decomp failed, path size: %zu\n" ANSI_COLOR_RESET, path.size());
+   if (path.size() < 2)
      return false;
-   }
 
    const unsigned int N = path.size() - 1;
    lines_.resize(N);
@@ -137,8 +125,6 @@ protected:
  vec_E<Ellipsoid<Dim>> ellipsoids_;
  vec_E<Polyhedron<Dim>> polyhedrons_;
  std::vector<std::shared_ptr<LineSegment<Dim>>> lines_;
-
- bool verbose_{false};
 
  Vecf<Dim> local_bbox_{Vecf<Dim>::Zero()};
  Vecf<Dim> global_bbox_min_{Vecf<Dim>::Zero()}; // bounding box params

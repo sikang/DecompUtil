@@ -17,7 +17,7 @@ Vecf<Dim> eigen_value(const Matf<Dim, Dim>& A) {
 }
 
 /// Calculate rotation matrix from a vector (aligned with x-axis)
-Mat2f vec2_to_rotation(const Vec2f &v) {
+inline Mat2f vec2_to_rotation(const Vec2f &v) {
   decimal_t yaw = std::atan2(v(1), v(0));
   Mat2f R;
   R << cos(yaw), -sin(yaw),
@@ -25,7 +25,7 @@ Mat2f vec2_to_rotation(const Vec2f &v) {
   return R;
 }
 
-Mat3f vec3_to_rotation(const Vec3f &v) {
+inline Mat3f vec3_to_rotation(const Vec3f &v) {
   // zero roll
   Vec3f rpy(0, std::atan2(-v(2), v.topRows<2>().norm()),
             std::atan2(v(1), v(0)));
@@ -36,7 +36,7 @@ Mat3f vec3_to_rotation(const Vec3f &v) {
 }
 
 /// Sort points on the same plane in the counter-clockwise order
-vec_Vec2f sort_pts(const vec_Vec2f &pts) {
+inline vec_Vec2f sort_pts(const vec_Vec2f &pts) {
   /// if empty, dont sort
   if(pts.empty())
     return pts;
@@ -66,7 +66,7 @@ vec_Vec2f sort_pts(const vec_Vec2f &pts) {
 
 
 /// Find intersection between two lines on the same plane, return false if they are not intersected
-bool line_intersect(const std::pair<Vec2f, Vec2f> &v1,
+inline bool line_intersect(const std::pair<Vec2f, Vec2f> &v1,
                     const std::pair<Vec2f, Vec2f> &v2,
                     Vec2f &pi) {
   decimal_t a1 = -v1.first(1);
@@ -91,7 +91,7 @@ bool line_intersect(const std::pair<Vec2f, Vec2f> &v1,
 
 
 /// Find intersection between multiple lines
-vec_Vec2f line_intersects(const vec_E<std::pair<Vec2f, Vec2f>> &lines) {
+inline vec_Vec2f line_intersects(const vec_E<std::pair<Vec2f, Vec2f>> &lines) {
   vec_Vec2f pts;
   for (unsigned int i = 0; i < lines.size(); i++) {
     for (unsigned int j = i + 1; j < lines.size(); j++) {
@@ -105,9 +105,9 @@ vec_Vec2f line_intersects(const vec_E<std::pair<Vec2f, Vec2f>> &lines) {
 }
 
 
-vec_Vec2f cal_vertices(const Polyhedron2D &poly) {
+inline vec_Vec2f cal_vertices(const Polyhedron2D &poly) {
   vec_E<std::pair<Vec2f, Vec2f>> lines;
-  const auto vs = poly.vs_;
+  const auto vs = poly.hyperplanes();
   for (unsigned int i = 0; i < vs.size(); i++) {
     Vec2f n = vs[i].n_;
     Vec2f v(-n(1), n(0));
@@ -130,24 +130,23 @@ vec_Vec2f cal_vertices(const Polyhedron2D &poly) {
   return vts_inside;
 }
 
-/*
 /// Find extreme points of Polyhedron3D
-vec_E<vec_Vec3f> cal_vertices(const Polyhedron3D &poly) {
+inline vec_E<vec_Vec3f> cal_vertices(const Polyhedron3D &poly) {
   vec_E<vec_Vec3f> bds;
-  const auto vts = poly.vs_;
+  const auto vts = poly.hyperplanes();
   //**** for each plane, find lines on it
   for (unsigned int i = 0; i < vts.size(); i++) {
-    const Vec3f t = vts[i].p;
-    const Vec3f n = vts[i].n;
+    const Vec3f t = vts[i].p_;
+    const Vec3f n = vts[i].n_;
     const Quatf q = Quatf::FromTwoVectors(Vec3f(0, 0, 1), n);
     const Mat3f R(q); // body to world
     vec_E<std::pair<Vec2f, Vec2f>> lines;
     for (unsigned int j = 0; j < vts.size(); j++) {
       if (j == i)
         continue;
-      Vec3f nw = vts[j].n;
+      Vec3f nw = vts[j].n_;
       Vec3f nb = R.transpose() * nw;
-      decimal_t bb = vts[j].p.dot(nw) - nw.dot(t);
+      decimal_t bb = vts[j].p_.dot(nw) - nw.dot(t);
       Vec2f v = Vec3f(0, 0, 1).cross(nb).topRows<2>(); // line direction
       Vec2f p; // point on the line
       if (nb(1) != 0)
@@ -164,45 +163,26 @@ vec_E<vec_Vec3f> cal_vertices(const Polyhedron3D &poly) {
     //**** filter out points inside polytope
     vec_Vec2f pts_inside;
     for (const auto& it : pts) {
-      Vec3f p = R * it + t; // convert to world frame
-      if (inside_polytope(p, vts)) {
+      Vec3f p = R * Vec3f(it(0), it(1), 0) + t; // convert to world frame
+      if (poly.inside(p))
         pts_inside.push_back(it);
-      }
     }
 
-    //**** sort in plane frame
-    pts_inside = sort_pts(pts_inside);
+    if(pts_inside.size() > 2) {
+      //**** sort in plane frame
+      pts_inside = sort_pts(pts_inside);
 
-    //**** transform to world frame
-    for (auto &it : pts_inside)
-      it = R * it + t;
-
-    if(pts_inside.size() > 2){
-      vec_Vec3f pts_valid;
-      pts_valid.push_back(pts_inside[0]);
-      Vec3f prev_pt = pts_inside[0];
-      const unsigned int size = pts_inside.size();
-      for(unsigned int k = 1; k < size - 1; k++){
-        if((pts_inside[k] - prev_pt).norm() > epsilon_)
-        {
-          prev_pt = pts_inside[k];
-          pts_valid.push_back(prev_pt);
-        }
-      }
-
-      if((pts_inside[size-1] - pts_inside[0]).norm() > epsilon_ &&
-          (pts_inside[size-1] - prev_pt).norm() > epsilon_)
-        pts_valid.push_back(pts_inside[size-1]);
+      //**** transform to world frame
+      vec_Vec3f points_valid;
+      for (auto &it : pts_inside)
+        points_valid.push_back(R * Vec3f(it(0), it(1), 0) + t);
 
       //**** insert resulting polygon
-      if(pts_valid.size() > 2){
-        bds.push_back(pts_valid);
-      }
+      bds.push_back(points_valid);
     }
   }
   return bds;
 }
-*/
 
 
 #endif
