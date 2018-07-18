@@ -16,17 +16,17 @@ struct Ellipsoid {
   Ellipsoid(const Matf<Dim, Dim>& C, const Vecf<Dim>& d) : C_(C), d_(d) {}
 
   /// Calculate distance to the center
-  decimal_t dist(const Vecf<Dim>& pt) {
+  decimal_t dist(const Vecf<Dim>& pt) const {
     return (C_.inverse() * (pt - d_)).norm();
   }
 
   /// Check if the point is inside, non-exclusive
-  bool inside(const Vecf<Dim>& pt) {
+  bool inside(const Vecf<Dim>& pt) const {
       return dist(pt) <= 1;
   }
 
   /// Calculate points inside ellipsoid, non-exclusive
-  vec_Vecf<Dim> points_inside(const vec_Vecf<Dim> &O) {
+  vec_Vecf<Dim> points_inside(const vec_Vecf<Dim> &O) const {
     vec_Vecf<Dim> new_O;
     for (const auto &it : O) {
       if (inside(it))
@@ -36,7 +36,7 @@ struct Ellipsoid {
   }
 
   ///Find the closest point
-  Vecf<Dim> closest_point(const vec_Vecf<Dim> &O) {
+  Vecf<Dim> closest_point(const vec_Vecf<Dim> &O) const {
     Vecf<Dim> pt = Vecf<Dim>::Zero();
     decimal_t min_dist = std::numeric_limits<decimal_t>::max();
     for (const auto &it : O) {
@@ -50,7 +50,7 @@ struct Ellipsoid {
   }
 
   ///Find the closest hyperplane from the closest point
-  Hyperplane<Dim> closest_hyperplane(const vec_Vecf<Dim> &O) {
+  Hyperplane<Dim> closest_hyperplane(const vec_Vecf<Dim> &O) const {
     const auto closest_pt = closest_point(O);
     const auto n = C_.inverse() * C_.inverse().transpose() *
       (closest_pt - d_);
