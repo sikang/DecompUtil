@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['seeddecomp',['SeedDecomp',['../classSeedDecomp.html',1,'']]]
+  ['polyhedron',['Polyhedron',['../structPolyhedron.html',1,'']]]
 ];

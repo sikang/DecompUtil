@@ -7,5 +7,6 @@ var searchData=
   ['set_5fobs',['set_obs',['../classDecompBase.html#a53cb01307a94dc941f40f1234b676a3b',1,'DecompBase::set_obs()'],['../classEllipsoidDecomp.html#aa3ea99617acd7f626ac7e731be9bea9f',1,'EllipsoidDecomp::set_obs()']]],
   ['shrink',['shrink',['../classDecompBase.html#a683f4c7d5b2cc03ac736f224e9cbca2c',1,'DecompBase']]],
   ['signed_5fdist',['signed_dist',['../structHyperplane.html#aa25c61b6fd4a9cdf8987324897f43939',1,'Hyperplane']]],
+  ['simplify',['simplify',['../classIterativeDecomp.html#a26f2e63081817fd284c38181bd09a3d8',1,'IterativeDecomp']]],
   ['sort_5fpts',['sort_pts',['../geometric__utils_8h.html#af844038aa7029551d36f807327590005',1,'geometric_utils.h']]]
 ];

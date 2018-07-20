@@ -37,7 +37,7 @@ The examples of using `SeedDecomp2D`, `LineSegment2D`, `EllipsoidDecomp2D` and
 
 SeedDecomp2D | LineSegment2D | EllipsoidDecomp2D | IterativeDecomp2D
 :----------- | :------------ | :---------------- | :----------------
-<img src="./data/example1.png" height="200"> <img src="./data/example2.png" height="200"> <img src="./data/example3.png" height="200"> <img src="./data/example4.png" height="200">
+<img src="./data/example1.png" height="200"> | <img src="./data/example2.png" height="200"> | <img src="./data/example3.png" height="200"> | <img src="./data/example4.png" height="200">
 
 
 The corresponding code for testing can be found in the `test` folder.

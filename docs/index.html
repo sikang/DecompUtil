@@ -86,17 +86,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>DecompUtil is a header only library, several test nodes are compiled during the installation. #### A) Simple cmake </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make</div></div><!-- fragment --><p>#### B) Using CATKIN (not recognizable by catkin_make) </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ cd mv decomp_util ~/catkin_ws/src</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;$ cd ~/catkin_ws &amp; catkin_make_isolated -DCMAKE_BUILD_TYPE=Release</div></div><!-- fragment --><h4>CTest</h4>
 <p>To check if everything is installed properlly: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ make test</div></div><!-- fragment --><h4>Include in other projects:</h4>
 <p>To link this lib properly, add following in the <code>CMakeLists.txt</code> </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;find_package(decomp_util REQUIRED)</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;include_directories(${DECOMP_UTIL_INCLUDE_DIRS})</div></div><!-- fragment --><h2>Examples</h2>
-<p>The examples of using <code>SeedDecomp2D</code>, <code>LineSegment2D</code> and <code>EllipsoidDecomp2D</code> are plotted as followings:</p>
-<div class="image">
+<p>The examples of using <code>SeedDecomp2D</code>, <code>LineSegment2D</code>, <code>EllipsoidDecomp2D</code> and <code>IterativeDecomp2D</code> are plotted as followings:</p>
+<table class="doxtable">
+<tr>
+<th align="left">SeedDecomp2D </th><th align="left">LineSegment2D </th><th align="left">EllipsoidDecomp2D </th><th align="left">IterativeDecomp2D  </th></tr>
+<tr>
+<td align="left"><div class="image">
 <img src="./data/example1.png"  height="200"/>
 </div>
- <div class="image">
+ </td><td align="left"><div class="image">
 <img src="./data/example2.png"  height="200"/>
 </div>
- <div class="image">
+ </td><td align="left"><div class="image">
 <img src="./data/example3.png"  height="200"/>
 </div>
-<p>The code for testing can be found in the <code>test</code> folder.</p>
+ </td><td align="left"><div class="image">
+<img src="./data/example4.png"  height="200"/>
+</div>
+ </td></tr>
+</table>
+<p>The corresponding code for testing can be found in the <code>test</code> folder.</p>
 <h2>Doxygen</h2>
 <p>For more details, please refer to <a href="https://sikang.github.io/DecompUtil/index.html">https://sikang.github.io/DecompUtil/index.html</a></p>
 <h2>ROS</h2>
