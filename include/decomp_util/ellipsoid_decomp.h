@@ -59,10 +59,7 @@ public:
   * @param path The path to dilate
   * @param offset_x offset added to the long semi-axis, default is 0
   */
- bool dilate(const vec_Vecf<Dim> &path, double offset_x = 0) {
-   if (path.size() < 2)
-     return false;
-
+ void dilate(const vec_Vecf<Dim> &path, double offset_x = 0) {
    const unsigned int N = path.size() - 1;
    lines_.resize(N);
    ellipsoids_.resize(N);
@@ -86,7 +83,6 @@ public:
        add_global_bbox(it);
    }
 
-   return true;
  }
 
 protected:

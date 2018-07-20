@@ -32,12 +32,15 @@ include_directories(${DECOMP_UTIL_INCLUDE_DIRS})
 ```
 
 ## Examples
-The examples of using `SeedDecomp2D`, `LineSegment2D` and `EllipsoidDecomp2D`
-are plotted as followings:
+The examples of using `SeedDecomp2D`, `LineSegment2D`, `EllipsoidDecomp2D` and
+`IterativeDecomp2D` are plotted as followings:
 
-<img src="./data/example1.png" height="200"> <img src="./data/example2.png" height="200"> <img src="./data/example3.png" height="200">
+SeedDecomp2D | LineSegment2D | EllipsoidDecomp2D | IterativeDecomp2D
+:----------- | :------------ | :---------------- | :----------------
+<img src="./data/example1.png" height="200"> <img src="./data/example2.png" height="200"> <img src="./data/example3.png" height="200"> <img src="./data/example4.png" height="200">
 
-The code for testing can be found in the `test` folder.
+
+The corresponding code for testing can be found in the `test` folder.
 
 ## Doxygen
 For more details, please refer to https://sikang.github.io/DecompUtil/index.html
