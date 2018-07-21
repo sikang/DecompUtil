@@ -112,7 +112,7 @@ struct LinearConstraint {
 		VecDf b(size);
 
 		for (unsigned int i = 0; i < size; i++) {
-			const auto n = vs[i].n_;
+			auto n = vs[i].n_;
 			decimal_t c = vs[i].p_.dot(n);
 			if (n.dot(p0) - c > 0) {
 				n = -n;
