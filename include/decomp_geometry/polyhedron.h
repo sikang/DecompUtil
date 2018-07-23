@@ -136,6 +136,12 @@ struct LinearConstraint {
     return true;
   }
 
+  /// Get \f$A\f$ matrix
+  MatDNf<Dim> A() const { return A_; }
+
+  /// Get \f$b\f$ matrix
+  VecDf b() const { return b_; }
+
   MatDNf<Dim> A_;
   VecDf b_;
 };
