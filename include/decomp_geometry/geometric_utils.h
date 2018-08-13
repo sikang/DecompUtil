@@ -203,13 +203,20 @@ inline vec_Vec2f cal_convex_hull(const vec_Vec2f& pts) {
     const auto ref_pt = vs.back();
     Vec2f end_pt = p0;
     for(size_t i = 0; i < pts.size(); i++) {
-      if(pts[i] == ref_pt)
+      bool skip = false;
+      for(const auto& it: vs) {
+        if(pts[i] == it) {
+          skip = true;
+          break;
+        }
+      }
+      if(skip)
         continue;
       Vec2f dir = (pts[i] - ref_pt).normalized();
       Hyperplane2D hp(ref_pt, Vec2f(-dir(1), dir(0)));
       bool most_left_hp = true;
       for(size_t j = 0; j < pts.size(); j++) {
-        if(hp.signed_dist(pts[j]) > 0) {
+        if(hp.signed_dist(pts[j]) > 0 && pts[j] != pts[i] && pts[j] != ref_pt) {
           most_left_hp = false;
           break;
         }
@@ -220,6 +227,7 @@ inline vec_Vec2f cal_convex_hull(const vec_Vec2f& pts) {
         break;
       }
     }
+    //std::cout << "add: " << end_pt.transpose() << std::endl;
     vs.push_back(end_pt);
   }
 
