@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <decomp_basis/data_utils.h>
+#include <decomp_geometry/polyhedron.h>
 #include <Eigen/Eigenvalues>
 
 /// Calculate eigen values
@@ -35,7 +36,7 @@ inline Mat3f vec3_to_rotation(const Vec3f &v) {
   return Mat3f(qz * qy * qx);
 }
 
-/// Sort points on the same plane in the counter-clockwise order
+/// Sort plannar points in the counter-clockwise order
 inline vec_Vec2f sort_pts(const vec_Vec2f &pts) {
   /// if empty, dont sort
   if(pts.empty())
@@ -88,8 +89,6 @@ inline bool line_intersect(const std::pair<Vec2f, Vec2f> &v1,
   }
 }
 
-
-
 /// Find intersection between multiple lines
 inline vec_Vec2f line_intersects(const vec_E<std::pair<Vec2f, Vec2f>> &lines) {
   vec_Vec2f pts;
@@ -104,7 +103,7 @@ inline vec_Vec2f line_intersects(const vec_E<std::pair<Vec2f, Vec2f>> &lines) {
   return pts;
 }
 
-
+/// Find extreme points of Polyhedron2D
 inline vec_Vec2f cal_vertices(const Polyhedron2D &poly) {
   vec_E<std::pair<Vec2f, Vec2f>> lines;
   const auto vs = poly.hyperplanes();
@@ -184,5 +183,76 @@ inline vec_E<vec_Vec3f> cal_vertices(const Polyhedron3D &poly) {
   return bds;
 }
 
+/// Get the convex hull of a 2D points array, use wrapping method
+inline vec_Vec2f cal_convex_hull(const vec_Vec2f& pts) {
+  /// find left most point
+  Vec2f p0;
+  decimal_t min_x = std::numeric_limits<decimal_t>::infinity();
+  for (const auto &it : pts) {
+    if(min_x > it(0) ||
+       (min_x == it(0) && it(1) < p0(1))) {
+      min_x = it(0);
+      p0 = it;
+    }
+  }
+
+  vec_Vec2f vs;
+  vs.push_back(p0);
+
+  while(vs.back() != p0 || vs.size() == 1) {
+    const auto ref_pt = vs.back();
+    Vec2f end_pt = p0;
+    for(size_t i = 0; i < pts.size(); i++) {
+      if(pts[i] == ref_pt)
+        continue;
+      Vec2f dir = (pts[i] - ref_pt).normalized();
+      Hyperplane2D hp(ref_pt, Vec2f(-dir(1), dir(0)));
+      bool most_left_hp = true;
+      for(size_t j = 0; j < pts.size(); j++) {
+        if(hp.signed_dist(pts[j]) > 0) {
+          most_left_hp = false;
+          break;
+        }
+      }
+
+      if(most_left_hp) {
+        end_pt = pts[i];
+        break;
+      }
+    }
+    vs.push_back(end_pt);
+  }
+
+  return vs;
+}
+
+inline Polyhedron2D get_convex_hull(const vec_Vec2f& pts) {
+  Polyhedron2D poly;
+  Vec2f prev_dir(-1, -1);
+  for(size_t i = 0; i < pts.size()-1; i++) {
+    size_t j = i+1;
+    Vec2f dir = (pts[j] - pts[i]).normalized();
+    if(dir != prev_dir) {
+      poly.add(Hyperplane2D((pts[i]+pts[j])/2, Vec2f(-dir(1), dir(0))));
+      prev_dir = dir;
+    }
+  }
+
+  return poly;
+}
+
+/// Minkowski sum, add B to A with center Bc
+inline Polyhedron2D minkowski_sum(const Polyhedron2D& A, const Polyhedron2D& B, const Vec2f& Bc) {
+  const auto A_vertices = cal_vertices(A);
+  const auto B_vertices = cal_vertices(B);
+
+  vec_Vec2f C_vertices;
+  for(const auto &it: A_vertices) {
+    for(const auto& itt: B_vertices)
+      C_vertices.push_back(it + itt - Bc);
+  }
+
+  return get_convex_hull(cal_convex_hull(C_vertices));
+}
 
 #endif
